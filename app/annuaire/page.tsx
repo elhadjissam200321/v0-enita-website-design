@@ -17,6 +17,8 @@ import {
   Rss,
   ChevronDown,
 } from "lucide-react"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 
 export const metadata = {
   title: "Annuaire B2B du Bâtiment | BATIMAG",
@@ -71,38 +73,7 @@ const footerCompany = ["À propos", "Contactez-nous", "Mentions légales", "Aide
 export default function AnnuairePage() {
   return (
     <div className="min-h-screen bg-[#f6f7f8] font-sans text-[#0e1f2f]">
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
-          <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0e1f2f] text-white">
-                <Building2 size={20} />
-              </div>
-              <span className="text-xl font-black tracking-tight text-[#0e1f2f]">BATIMAG</span>
-            </Link>
-            <nav className="hidden items-center gap-6 lg:flex">
-              {["Annuaire", "Appels d'offres", "Actualités", "Secteurs"].map((item) => (
-                <Link
-                  key={item}
-                  href="#"
-                  className="text-sm font-semibold text-[#0e1f2f] transition-colors hover:text-[#F28C28]"
-                >
-                  {item}
-                </Link>
-              ))}
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="hidden text-sm font-medium text-[#0e1f2f] transition-colors hover:text-[#F28C28] lg:block">
-              Se connecter
-            </button>
-            <button className="rounded-lg bg-[#0e1f2f] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#1a3044]">
-              Inscrire votre entreprise
-            </button>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       {/* Hero Search */}
       <section
@@ -290,64 +261,7 @@ export default function AnnuairePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white px-4 py-12 lg:px-8">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded bg-[#0e1f2f] text-white">
-                <Building2 size={16} />
-              </div>
-              <span className="text-xl font-black tracking-tight text-[#0e1f2f]">BATIMAG</span>
-            </div>
-            <p className="text-sm leading-relaxed text-slate-500">
-              L&apos;écosystème digital n°1 dédié aux professionnels du bâtiment et des travaux
-              publics en Afrique.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="mb-4 font-bold text-[#0e1f2f]">Solutions</h4>
-            <ul className="space-y-2 text-sm text-slate-500">
-              {footerSolutions.map((item) => (
-                <li key={item}>
-                  <a href="#" className="transition-colors hover:text-[#0e1f2f]">{item}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-4 font-bold text-[#0e1f2f]">L&apos;entreprise</h4>
-            <ul className="space-y-2 text-sm text-slate-500">
-              {footerCompany.map((item) => (
-                <li key={item}>
-                  <a href="#" className="transition-colors hover:text-[#0e1f2f]">{item}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-4 font-bold text-[#0e1f2f]">Suivez-nous</h4>
-            <div className="flex gap-3">
-              {[Share2, Users, Rss].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-[#0e1f2f] hover:text-white"
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-12 max-w-7xl border-t border-slate-100 pt-8 text-center text-xs text-slate-400">
-          <p>© 2024 BATIMAG. Tous droits réservés. Plateforme propulsée par B2B Construction Digital.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
