@@ -1,309 +1,524 @@
-import Link from "next/link"
-import { Search, MapPin, Building2, Clock, Briefcase, ChevronRight, ArrowRight, Filter } from "lucide-react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { SectionHeader } from "@/components/section-header"
+'use client'
 
-const jobTypes = ["Tous types", "CDI", "CDD", "Stage", "Mission", "Freelance"]
-const sectors = ["Tous secteurs", "Génie Civil", "Architecture", "Management", "Commercial", "HSE", "Études", "Topographie"]
-const countries = ["Tous pays", "Maroc", "Côte d'Ivoire", "Sénégal", "Cameroun", "Kenya", "Algérie"]
+import Link from 'next/link'
+import { useState } from 'react'
+import { Search, MapPin, Building2, Clock, Briefcase, Filter, X } from 'lucide-react'
+import { Navbar } from '@/components/navbar'
+import { Footer } from '@/components/footer'
 
 const jobs = [
   {
     id: 1,
-    title: "Ingénieur Génie Civil – Structures",
-    company: "COVEC AFRICA",
-    location: "Casablanca, Maroc",
-    contract: "CDI",
-    sector: "Génie Civil",
-    experience: "3-5 ans",
-    posted: "Il y a 2 jours",
-    salary: "15 000 – 20 000 MAD",
-    description: "Vous serez en charge du dimensionnement et du suivi des ouvrages de génie civil dans le cadre de grands projets d'infrastructure.",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Conducteur de Travaux – Bâtiment",
-    company: "Bouygues Construction Afrique",
-    location: "Abidjan, Côte d'Ivoire",
-    contract: "CDI",
-    sector: "Management",
-    experience: "5-8 ans",
-    posted: "Il y a 3 jours",
-    salary: "Selon profil",
-    description: "Piloter l'exécution des travaux de bâtiment en assurant le respect des délais, des coûts et des normes qualité / sécurité.",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Architecte Urbaniste Senior",
-    company: "Cabinet BCEOM",
-    location: "Dakar, Sénégal",
-    contract: "CDI",
-    sector: "Architecture",
-    experience: "7+ ans",
-    posted: "Il y a 4 jours",
-    salary: "Selon profil",
-    description: "Concevoir et piloter des projets d'urbanisme et d'aménagement urbain durables pour des villes en forte croissance.",
+    title: 'Directeur de Travaux - Pont de Jacqueville',
+    company: 'Eiffage Infrastructures',
+    logo: 'https://images.unsplash.com/photo-1633356713697-7b4b1be9d2c5?w=100&h=100&fit=crop',
+    location: 'Abidjan, Côte d\'Ivoire',
+    contract: 'CDI',
+    sector: 'Infrastructures',
+    posted: 'Il y a 2 jours',
+    salary: '$120k - $160k',
+    description: 'Sous la responsabilité de la direction opérationnelle, vous pilotez l\'ensemble des phases du projet de construction du nouveau pont. Management d\'une équipe de 50 personnes...',
     featured: false,
   },
   {
+    id: 2,
+    title: 'Ingénieur Structure Senior H/F',
+    company: 'Egis Maroc',
+    logo: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=100&h=100&fit=crop',
+    location: 'Casablanca, Maroc',
+    contract: 'Mission',
+    sector: 'Bureaux d\'études',
+    posted: 'Il y a 5 heures',
+    salary: 'Selon profil',
+    description: 'Rattaché au pôle Ingénierie, vous assurez la conception et le dimensionnement de structures complexes en béton armé et charpente métallique pour des projets tertiaires d\'envergure...',
+    featured: false,
+  },
+  {
+    id: 3,
+    title: 'Chef de Projet Solaire & Infrastructures',
+    company: 'Scatec Energy',
+    logo: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=100&h=100&fit=crop',
+    location: 'Dakar, Sénégal',
+    contract: 'CDI',
+    sector: 'Énergie',
+    posted: 'Hier',
+    salary: 'Expat package',
+    description: 'Leader sur le marché des énergies renouvelables, nous recrutons un Chef de Projet pour superviser l\'installation d\'une centrale photovoltaïque de 50MW...',
+    featured: true,
+    premium: true,
+  },
+  {
     id: 4,
-    title: "Chef de Projet Infrastructure Routière",
-    company: "VINCI Construction",
-    location: "Nairobi, Kenya",
-    contract: "CDD 24 mois",
-    sector: "Génie Civil",
-    experience: "8+ ans",
-    posted: "Il y a 5 jours",
-    salary: "Expat package",
-    description: "Diriger la réalisation d'un projet routier de grande envergure en Afrique de l'Est, en coordination avec les équipes locales.",
+    title: 'Senior Project Manager',
+    company: 'LafargeHolcim Group',
+    logo: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=100&h=100&fit=crop',
+    location: 'Nairobi, Kenya',
+    contract: 'Full-time',
+    sector: 'Matériaux',
+    posted: '4h ago',
+    salary: 'Negotiable',
+    description: 'Lead infrastructure projects and manage cross-functional teams in East Africa region.',
     featured: false,
   },
   {
     id: 5,
-    title: "Responsable HSE – Grands Travaux",
-    company: "Eiffage Sénégal",
-    location: "Thiès, Sénégal",
-    contract: "CDI",
-    sector: "HSE",
-    experience: "4-6 ans",
-    posted: "Il y a 6 jours",
-    salary: "Selon profil",
-    description: "Mettre en place et animer la politique Hygiène, Sécurité et Environnement sur les chantiers de construction.",
+    title: 'Senior Hydropower Engineer',
+    company: 'Global Energy Partners',
+    logo: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=100&h=100&fit=crop',
+    location: 'Addis Ababa, Ethiopia',
+    contract: 'Contract',
+    sector: 'Énergie',
+    posted: '1d ago',
+    salary: 'Competitive',
+    description: 'Design and oversee hydropower projects with cutting-edge technology.',
     featured: false,
   },
   {
     id: 6,
-    title: "Ingénieur Électrotechnicien",
-    company: "STRABAG Maroc",
-    location: "Rabat, Maroc",
-    contract: "CDI",
-    sector: "Études",
-    experience: "2-4 ans",
-    posted: "Il y a 7 jours",
-    salary: "12 000 – 16 000 MAD",
-    description: "Réaliser les études électriques d'installations tertiaires et industrielles dans le cadre de projets de construction neuve et de réhabilitation.",
-    featured: false,
-  },
-  {
-    id: 7,
-    title: "Topographe – Grands Projets",
-    company: "COVEC AFRICA",
-    location: "Casablanca, Maroc",
-    contract: "CDD",
-    sector: "Topographie",
-    experience: "2-4 ans",
-    posted: "Il y a 8 jours",
-    salary: "10 000 – 14 000 MAD",
-    description: "Réaliser les levés topographiques et assurer le suivi géométrique des ouvrages dans le cadre de projets autoroutiers.",
-    featured: false,
-  },
-  {
-    id: 8,
-    title: "Ingénieur Commercial BTP",
-    company: "LaFarge Holcim Afrique",
-    location: "Abidjan, Côte d'Ivoire",
-    contract: "CDI",
-    sector: "Commercial",
-    experience: "3-5 ans",
-    posted: "Il y a 10 jours",
-    salary: "Selon profil + commissions",
-    description: "Développer et fidéliser un portefeuille de clients professionnels (entreprises de construction, promoteurs) dans la zone Afrique de l'Ouest.",
+    title: 'Urban Planning Consultant',
+    company: 'Sino-Afri Construction Co.',
+    logo: 'https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=100&h=100&fit=crop',
+    location: 'Lagos, Nigeria',
+    contract: 'Full-time',
+    sector: 'Urbanisme',
+    posted: '5d ago',
+    salary: '$85k - $110k',
+    description: 'Lead urban development projects and create sustainable city plans.',
     featured: false,
   },
 ]
 
-const contractColors: Record<string, string> = {
-  CDI: "bg-green-100 text-green-800",
-  CDD: "bg-blue-100 text-blue-800",
-  "CDD 24 mois": "bg-blue-100 text-blue-800",
-  Stage: "bg-purple-100 text-purple-800",
-  Mission: "bg-orange-100 text-orange-800",
-}
+const sectors = [
+  'Tous les secteurs',
+  'Gros Œuvre',
+  'Ingénierie',
+  'Management',
+  'Énergie',
+  'Urbanisme',
+  'Architecture',
+  'HSE',
+]
+
+const contractTypes = ['Tous types', 'CDI', 'CDD', 'Mission', 'Freelance', 'Contract', 'Full-time']
+const locations = ['Tous les pays', 'Maroc', 'Côte d\'Ivoire', 'Sénégal', 'Kenya', 'Nigeria', 'Algérie', 'Cameroun']
 
 export default function EmploisPage() {
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [selectedSector, setSelectedSector] = useState('Tous les secteurs')
+  const [selectedContract, setSelectedContract] = useState('Tous types')
+  const [selectedLocation, setSelectedLocation] = useState('Tous les pays')
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const filteredJobs = jobs.filter((job) => {
+    const matchesSector = selectedSector === 'Tous les secteurs' || job.sector === selectedSector
+    const matchesContract = selectedContract === 'Tous types' || job.contract === selectedContract
+    const matchesLocation = selectedLocation === 'Tous les pays' || job.location.includes(selectedLocation)
+    const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.company.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesSector && matchesContract && matchesLocation && matchesSearch
+  })
+
   return (
-    <main>
+    <main className="bg-white dark:bg-slate-900">
       <Navbar />
 
-      {/* Page header */}
-      <section className="bg-[#0E1F2F] py-10">
-        <div className="max-w-7xl mx-auto px-4">
-          <nav className="flex items-center gap-2 text-white/40 text-xs mb-3">
-            <Link href="/" className="hover:text-[#F28C28] transition-colors">Accueil</Link>
-            <ChevronRight className="w-3 h-3" />
-            <span className="text-white/70">Offres d'Emploi</span>
-          </nav>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Offres d'Emploi BTP</h1>
-          <p className="text-white/60 text-base">
-            Trouvez votre prochain poste dans le secteur de la construction en Afrique
-          </p>
-        </div>
-      </section>
-
-      {/* Filters */}
-      <div className="bg-secondary border-b border-border py-4 sticky top-16 z-30">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-3">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Titre de poste, entreprise..."
-                className="w-full pl-9 pr-4 py-2.5 text-sm bg-background border border-border focus:outline-none focus:ring-2 focus:ring-[#F28C28]"
-              />
-            </div>
-            <select className="px-4 py-2.5 text-sm bg-background border border-border focus:outline-none text-foreground">
-              {sectors.map((s) => <option key={s}>{s}</option>)}
-            </select>
-            <select className="px-4 py-2.5 text-sm bg-background border border-border focus:outline-none text-foreground">
-              {jobTypes.map((t) => <option key={t}>{t}</option>)}
-            </select>
-            <select className="px-4 py-2.5 text-sm bg-background border border-border focus:outline-none text-foreground">
-              {countries.map((c) => <option key={c}>{c}</option>)}
-            </select>
-            <button className="bg-[#F28C28] text-white text-sm font-bold px-6 py-2.5 hover:bg-orange-600 transition-colors flex items-center gap-2">
-              <Search className="w-4 h-4" />
-              Rechercher
+      {/* MOBILE LAYOUT */}
+      <div className="lg:hidden flex flex-col h-screen">
+        {/* Mobile Header */}
+        <header className="sticky top-0 z-40 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-between p-4 gap-2">
+            <h1 className="text-lg font-bold text-slate-900 dark:text-white">Offres d'Emplois</h1>
+            <button className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+              <Search className="w-5 h-5 text-slate-600 dark:text-slate-300" />
             </button>
           </div>
+
+          {/* Mobile Search Bar */}
+          <div className="px-4 pb-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Poste, entreprise..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#F28C28] focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          {/* Mobile Filter Pills */}
+          <div className="flex gap-2 px-4 pb-4 overflow-x-auto no-scrollbar">
+            <button className="flex items-center gap-1 shrink-0 h-10 rounded-full bg-[#0e1f2f] text-white px-4 text-sm font-medium">
+              <MapPin className="w-4 h-4" />
+              Location
+            </button>
+            <button className="flex items-center gap-1 shrink-0 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-sm font-medium text-slate-900 dark:text-white">
+              <Briefcase className="w-4 h-4" />
+              Contract
+            </button>
+            <button className="flex items-center gap-1 shrink-0 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-sm font-medium text-slate-900 dark:text-white">
+              <Building2 className="w-4 h-4" />
+              Sector
+            </button>
+            <button
+              onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+              className="flex items-center gap-1 shrink-0 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-sm font-medium text-slate-900 dark:text-white"
+            >
+              <Filter className="w-4 h-4" />
+              Filtres
+            </button>
+          </div>
+        </header>
+
+        {/* Mobile Filters Drawer */}
+        {mobileFiltersOpen && (
+          <div className="fixed inset-0 z-50 bg-black/50 lg:hidden" onClick={() => setMobileFiltersOpen(false)}>
+            <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-800 rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Filtres</h3>
+                <button onClick={() => setMobileFiltersOpen(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-bold text-slate-600 dark:text-slate-300 uppercase mb-2 block">Secteur</label>
+                  <select
+                    value={selectedSector}
+                    onChange={(e) => setSelectedSector(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                  >
+                    {sectors.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-bold text-slate-600 dark:text-slate-300 uppercase mb-2 block">Type de contrat</label>
+                  <select
+                    value={selectedContract}
+                    onChange={(e) => setSelectedContract(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                  >
+                    {contractTypes.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-bold text-slate-600 dark:text-slate-300 uppercase mb-2 block">Localisation</label>
+                  <select
+                    value={selectedLocation}
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                  >
+                    {locations.map((l) => (
+                      <option key={l} value={l}>
+                        {l}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Mobile Job List */}
+        <div className="flex-1 overflow-y-auto pb-24">
+          <div className="p-4 space-y-3">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-base font-bold text-slate-900 dark:text-white">Featured Opportunities</h2>
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">{filteredJobs.length} Results</span>
+            </div>
+
+            {filteredJobs.map((job) => (
+              <Link
+                key={job.id}
+                href={`/emplois/${job.id}`}
+                className="bg-white dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-[#F28C28]/30 transition-all"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center shrink-0">
+                    <Building2 className="w-5 h-5 text-[#F28C28]" />
+                  </div>
+                  {job.premium && (
+                    <span className="bg-[#F28C28]/10 text-[#F28C28] text-[10px] font-bold px-2 py-1 rounded uppercase">Premium</span>
+                  )}
+                </div>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-tight mb-1">{job.title}</h3>
+                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium mb-3">{job.company}</p>
+
+                <div className="flex flex-wrap gap-2 mb-3">
+                  <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 px-2 py-1 rounded text-[10px] font-semibold text-slate-600 dark:text-slate-300">
+                    <MapPin className="w-3 h-3" />
+                    {job.location.split(',')[0]}
+                  </div>
+                  <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-2 py-1 rounded text-[10px] font-bold">
+                    {job.contract}
+                  </div>
+                  <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 px-2 py-1 rounded text-[10px] font-semibold text-slate-600 dark:text-slate-300">
+                    <Clock className="w-3 h-3" />
+                    {job.posted}
+                  </div>
+                </div>
+
+                <div className="border-t border-slate-200 dark:border-slate-700 pt-3 flex items-center justify-between">
+                  <span className="text-[#F28C28] font-bold text-sm">{job.salary}</span>
+                  <button className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold px-4 py-2 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
+                    View Details
+                  </button>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
+
+        {/* Mobile Bottom Navigation */}
+        <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-2 py-3 z-40">
+          <div className="flex justify-around items-center max-w-md mx-auto">
+            <Link href="/" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+              <Building2 className="w-5 h-5" />
+              <span className="text-[10px] font-bold uppercase">Home</span>
+            </Link>
+            <Link href="/annuaire" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+              <Building2 className="w-5 h-5" />
+              <span className="text-[10px] font-bold uppercase">Directory</span>
+            </Link>
+            <Link href="/actualites" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+              <Building2 className="w-5 h-5" />
+              <span className="text-[10px] font-bold uppercase">News</span>
+            </Link>
+            <Link href="/emplois" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-900 dark:text-white relative">
+              <Briefcase className="w-5 h-5 text-[#F28C28]" />
+              <span className="text-[10px] font-bold uppercase text-[#F28C28]">Jobs</span>
+              <div className="absolute -top-1 right-2 w-1.5 h-1.5 bg-[#F28C28] rounded-full"></div>
+            </Link>
+            <Link href="/a-propos" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+              <Building2 className="w-5 h-5" />
+              <span className="text-[10px] font-bold uppercase">Profile</span>
+            </Link>
+          </div>
+        </nav>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          {[
-            { value: "850+", label: "Offres actives" },
-            { value: "320", label: "Entreprises recrutent" },
-            { value: "45", label: "Pays couverts" },
-            { value: "2 400+", label: "Candidats inscrits" },
-          ].map((stat) => (
-            <div key={stat.label} className="bg-secondary border border-border p-4 text-center">
-              <p className="text-[#F28C28] text-2xl font-bold">{stat.value}</p>
-              <p className="text-muted-foreground text-xs mt-0.5">{stat.label}</p>
+      {/* DESKTOP LAYOUT */}
+      <div className="hidden lg:block">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-r from-[#0e1f2f] to-[#1a2d42] text-white py-20 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute inset-0 bg-[radial-gradient(#F28C28_1px,transparent_1px)] [background-size:40px_40px]"></div>
+          </div>
+          <div className="max-w-7xl mx-auto px-8 relative z-10">
+            <span className="inline-block bg-[#F28C28] text-[#0e1f2f] font-bold text-xs uppercase px-3 py-1 rounded-full mb-4">Portail Recrutement BTP</span>
+            <h2 className="text-5xl lg:text-6xl font-black leading-tight mb-6">Opportunités de Carrière BTP & Infrastructures</h2>
+            <p className="text-lg text-slate-300 font-light max-w-2xl">
+              Trouvez les meilleurs talents et opportunités stratégiques au Maroc, en Côte d'Ivoire, au Sénégal et dans toute l'Afrique.
+            </p>
+          </div>
+        </section>
+
+        {/* Search & Filter Card */}
+        <section className="max-w-7xl mx-auto px-8 -mt-10 relative z-20 mb-12">
+          <div className="bg-white dark:bg-slate-900 p-8 rounded-lg shadow-xl border border-slate-200 dark:border-slate-800">
+            <form className="grid grid-cols-4 gap-4 mb-6">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Mots-clés</label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Poste, métier, entreprise..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:ring-2 focus:ring-[#F28C28] focus:border-transparent text-slate-900 dark:text-white"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Localisation</label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <select
+                    value={selectedLocation}
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:ring-2 focus:ring-[#F28C28] focus:border-transparent text-slate-900 dark:text-white appearance-none"
+                  >
+                    {locations.map((l) => (
+                      <option key={l} value={l}>
+                        {l}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Catégorie</label>
+                <div className="relative">
+                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <select
+                    value={selectedSector}
+                    onChange={(e) => setSelectedSector(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded focus:ring-2 focus:ring-[#F28C28] focus:border-transparent text-slate-900 dark:text-white appearance-none"
+                  >
+                    {sectors.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5 justify-end">
+                <button className="w-full py-3 bg-[#0e1f2f] dark:bg-white text-white dark:text-slate-900 font-bold rounded hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors flex items-center justify-center gap-2">
+                  <Search className="w-4 h-4" />
+                  Rechercher les offres
+                </button>
+              </div>
+            </form>
+
+            {/* Quick filters */}
+            <div className="flex flex-wrap gap-2">
+              <span className="text-xs font-bold text-slate-400 uppercase self-center mr-2">Filtres rapides :</span>
+              <button className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition-colors">CDI</button>
+              <button className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition-colors">Mission</button>
+              <button className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition-colors">Freelance</button>
+              <button className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition-colors">Grands Projets</button>
             </div>
-          ))}
-        </div>
+          </div>
+        </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Job listings */}
-          <div className="lg:col-span-2">
-            <SectionHeader
-              title="Offres du moment"
-              subtitle={`${jobs.length} offres disponibles`}
-            />
-            <div className="space-y-4">
-              {jobs.map((job) => (
-                <Link
-                  key={job.id}
-                  href="#"
-                  className={`group block border p-5 hover:shadow-md transition-all bg-background ${
-                    job.featured ? "border-[#F28C28]/40" : "border-border hover:border-[#F28C28]/40"
-                  }`}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-11 h-11 bg-secondary border border-border flex items-center justify-center shrink-0">
-                      <Building2 className="w-5 h-5 text-[#F28C28]" />
+        {/* Main Content Grid */}
+        <section className="max-w-7xl mx-auto px-8 py-12 grid grid-cols-12 gap-8">
+          {/* Job List */}
+          <div className="col-span-8 space-y-6">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+                <div className="w-1.5 h-8 bg-[#F28C28] rounded-full"></div>
+                Dernières Offres d'Emploi
+              </h3>
+              <span className="text-sm text-slate-500 dark:text-slate-400">{filteredJobs.length} offres trouvées</span>
+            </div>
+
+            {filteredJobs.map((job) => (
+              <Link
+                key={job.id}
+                href={`/emplois/${job.id}`}
+                className={`bg-white dark:bg-slate-900 p-6 rounded border transition-all hover:shadow-md group cursor-pointer ${
+                  job.featured ? 'border-l-4 border-l-[#F28C28] border-slate-200 dark:border-slate-800' : 'border-slate-200 dark:border-slate-800'
+                }`}
+              >
+                <div className="flex gap-6">
+                  <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded flex-shrink-0 flex items-center justify-center">
+                    <Building2 className="w-8 h-8 text-[#F28C28]" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start mb-1">
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#F28C28] transition-colors leading-snug">
+                          {job.title}
+                        </h4>
+                        {job.premium && (
+                          <span className="bg-[#F28C28]/10 text-[#F28C28] text-[10px] px-2 py-0.5 rounded font-black uppercase">Premium</span>
+                        )}
+                      </div>
+                      <span className="text-xs text-slate-400 dark:text-slate-500 font-medium">{job.posted}</span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2 flex-wrap">
-                        <div>
-                          <h3 className="text-base font-bold text-foreground group-hover:text-[#F28C28] transition-colors leading-snug">
-                            {job.title}
-                          </h3>
-                          <p className="text-[#F28C28] text-sm font-semibold mt-0.5">{job.company}</p>
-                        </div>
-                        <div className="flex items-center gap-2 shrink-0">
-                          {job.featured && (
-                            <span className="bg-[#F28C28] text-white text-xs font-bold px-2 py-0.5">Urgent</span>
-                          )}
-                          <span className={`text-xs font-bold px-2.5 py-1 ${contractColors[job.contract] ?? "bg-gray-100 text-gray-700"}`}>
-                            {job.contract}
-                          </span>
-                        </div>
-                      </div>
 
-                      <p className="text-muted-foreground text-sm mt-2 leading-relaxed line-clamp-2">
-                        {job.description}
-                      </p>
+                    <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mb-3">
+                      <span className="font-bold flex items-center gap-1">
+                        <Building2 className="w-4 h-4" />
+                        {job.company}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-4 h-4" />
+                        {job.location}
+                      </span>
+                    </div>
 
-                      <div className="flex flex-wrap gap-4 mt-3 text-xs text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-[#F28C28]" />
-                          {job.location}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Briefcase className="w-3.5 h-3.5 text-[#F28C28]" />
-                          {job.sector}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-[#F28C28]" />
-                          {job.posted}
-                        </div>
-                      </div>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed">{job.description}</p>
 
-                      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
-                        <span className="text-foreground text-sm font-semibold">{job.salary}</span>
-                        <span className="text-[#F28C28] text-sm font-semibold flex items-center gap-1">
-                          Postuler <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-2">
+                        <span className="px-2 py-0.5 bg-slate-900 dark:bg-slate-700 text-white dark:text-slate-200 text-[10px] font-bold uppercase rounded">{job.contract}</span>
+                        <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] font-bold uppercase rounded">{job.sector}</span>
                       </div>
+                      <button className="text-xs font-bold text-slate-900 dark:text-[#F28C28] hover:underline">Voir les détails →</button>
                     </div>
                   </div>
-                </Link>
-              ))}
+                </div>
+              </Link>
+            ))}
+
+            <div className="text-center pt-4">
+              <button className="px-8 py-3 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold rounded hover:bg-slate-300 transition-colors">
+                Afficher plus d'offres
+              </button>
             </div>
           </div>
 
           {/* Sidebar */}
-          <aside className="space-y-6">
-            {/* Post job CTA */}
-            <div className="bg-[#0E1F2F] p-6 text-center">
-              <Briefcase className="w-8 h-8 text-[#F28C28] mx-auto mb-3" />
-              <h4 className="text-white font-bold text-lg mb-2">Vous recrutez ?</h4>
-              <p className="text-white/60 text-sm mb-4 leading-relaxed">
-                Publiez vos offres d'emploi et atteignez des milliers de professionnels BTP en Afrique.
+          <aside className="col-span-4 space-y-8">
+            {/* Post Job CTA */}
+            <div className="bg-[#0e1f2f] p-8 rounded text-white">
+              <h4 className="text-xl font-bold mb-4">Vous recrutez ?</h4>
+              <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+                Accédez à une CVthèque de plus de 50 000 experts du BTP et des infrastructures en Afrique.
               </p>
-              <Link
-                href="/contact"
-                className="w-full inline-block text-center bg-[#F28C28] text-white text-sm font-bold py-3 hover:bg-orange-600 transition-colors"
-              >
-                Publier une offre
-              </Link>
+              <button className="w-full py-3 bg-[#F28C28] text-white font-bold rounded shadow-lg hover:scale-105 transition-transform">
+                Publiez votre offre
+              </button>
+              <p className="text-[10px] text-center mt-3 text-slate-400 uppercase font-semibold">Réponse sous 24h garantie</p>
             </div>
 
-            {/* Ad space */}
-            <div className="bg-secondary border border-border p-4 flex items-center justify-center h-52">
-              <span className="text-muted-foreground text-xs uppercase tracking-widest">Espace publicitaire</span>
-            </div>
-
-            {/* Sectors */}
-            <div>
-              <h4 className="text-sm font-bold text-foreground uppercase tracking-wider mb-3">
-                Par secteur
+            {/* Top Recruiters */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded p-6">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-6 pb-2 border-b-2 border-[#F28C28] inline-block">
+                Top Recruteurs
               </h4>
-              <div className="space-y-2">
-                {sectors.slice(1).map((sector) => (
-                  <button
-                    key={sector}
-                    className="w-full flex items-center justify-between px-3 py-2 text-sm text-foreground hover:bg-secondary hover:text-[#F28C28] transition-colors text-left"
-                  >
-                    <span>{sector}</span>
-                    <span className="text-muted-foreground text-xs">
-                      {Math.floor(Math.random() * 50) + 10}
-                    </span>
-                  </button>
+              <div className="grid grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="aspect-square bg-slate-50 dark:bg-slate-800 rounded flex items-center justify-center p-4 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                    <Building2 className="w-8 h-8 text-slate-400" />
+                  </div>
                 ))}
               </div>
             </div>
+
+            {/* Job Alerts */}
+            <div className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded p-6">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">Alerte Emploi</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">Recevez les dernières offres directement par email.</p>
+              <form className="space-y-3">
+                <input
+                  type="email"
+                  placeholder="Votre email professionnel"
+                  className="w-full text-sm px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded focus:ring-2 focus:ring-[#F28C28] text-slate-900 dark:text-white"
+                />
+                <button className="w-full py-3 bg-[#0e1f2f] dark:bg-white text-white dark:text-slate-900 text-sm font-bold rounded hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
+                  S'inscrire aux alertes
+                </button>
+              </form>
+            </div>
           </aside>
-        </div>
+        </section>
       </div>
 
-      <Footer />
+      {/* Desktop Footer */}
+      <div className="hidden lg:block">
+        <Footer />
+      </div>
     </main>
   )
 }
