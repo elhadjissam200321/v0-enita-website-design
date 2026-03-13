@@ -6,7 +6,6 @@ import {
   MapPin,
   GraduationCap,
   Users,
-  BookOpen,
   Monitor,
   Award,
   CheckCircle,
@@ -19,7 +18,7 @@ import {
 } from 'lucide-react'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
-import { useState } from 'react'
+import { useState, use } from 'react'
 
 const trainingsData = [
   {
@@ -46,7 +45,7 @@ Les participants acquerront une expertise complète en:
 - Communication et leadership en environnement BTP`,
     objectives: [
       'Maîtriser les outils et méthodes de gestion de projet modernes',
-      'Développer des compétences en leadership et management d\'équipe',
+      "Développer des compétences en leadership et management d'équipe",
       'Apprendre à gérer les budgets et les délais de chantier',
       'Acquérir une expertise en prévention des risques et HSE',
       'Comprendre les enjeux économiques et stratégiques du BTP africain',
@@ -65,7 +64,7 @@ Les participants acquerront une expertise complète en:
         week: '5-8',
         title: 'Gestion des Équipes et Leadership',
         topics: [
-          'Dynamique d\'équipe en contexte BTP',
+          "Dynamique d'équipe en contexte BTP",
           'Leadership situationnel',
           'Communication et résolution de conflits',
         ],
@@ -90,7 +89,7 @@ Les participants acquerront une expertise complète en:
       },
     ],
     requirements: [
-      'Diplôme de niveau Bac+2 minimum ou 3 ans d\'expérience professionnelle',
+      "Diplôme de niveau Bac+2 minimum ou 3 ans d'expérience professionnelle",
       'Maîtrise du français et des outils informatiques basiques',
       'Motivation et intérêt pour le secteur du BTP',
     ],
@@ -114,7 +113,7 @@ Les participants acquerront une expertise complète en:
     students: 80,
     image: '/images/training-1.jpg',
     price: '1 200 000 FCFA',
-    description: 'Maîtrisez la modélisation BIM avec les outils leaders du marché. Formation intensive couvrant Revit, Navisworks et l\'intégration BIM dans les flux de travail.',
+    description: "Maîtrisez la modélisation BIM avec les outils leaders du marché. Formation intensive couvrant Revit, Navisworks et l'intégration BIM dans les flux de travail.",
     fullDescription: `La formation BIM prépare les professionnels à l'utilisation des technologies de modélisation 3D dans les projets de construction modernes.
 
 Vous apprendrez à:
@@ -169,8 +168,9 @@ Vous apprendrez à:
   },
 ]
 
-export default function FormationDetailPage({ params }: { params: { id: string } }) {
-  const training = trainingsData.find((t) => t.id === parseInt(params.id))
+export default function FormationDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params)
+  const training = trainingsData.find((t) => t.id === parseInt(resolvedParams.id))
   const [isSaved, setIsSaved] = useState(false)
 
   if (!training) {
@@ -268,7 +268,7 @@ export default function FormationDetailPage({ params }: { params: { id: string }
           {/* Overview */}
           <section className="mb-10 rounded-xl bg-white p-8 shadow-sm">
             <h2 className="mb-4 text-2xl font-bold text-[#0e1f2f]">Aperçu de la formation</h2>
-            <p className="leading-relaxed text-slate-600">{training.fullDescription}</p>
+            <p className="leading-relaxed text-slate-600 whitespace-pre-line">{training.fullDescription}</p>
           </section>
 
           {/* Objectives */}
