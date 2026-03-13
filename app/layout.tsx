@@ -1,12 +1,20 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { DM_Sans, Libre_Baskerville } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-dm-sans',
   display: 'swap',
+  weight: ['400', '500', '600', '700'],
+})
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ['latin'],
+  variable: '--font-libre-baskerville',
+  display: 'swap',
+  weight: ['400', '700'],
 })
 
 export const metadata: Metadata = {
@@ -26,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={inter.variable}>
+    <html lang="fr" className={`${dmSans.variable} ${libreBaskerville.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
         <Analytics />
