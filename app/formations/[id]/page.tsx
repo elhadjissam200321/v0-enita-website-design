@@ -1,449 +1,409 @@
-'use client'
+"use client"
 
-import Link from 'next/link'
-import {
-  Clock,
-  MapPin,
-  GraduationCap,
+import Link from "next/link"
+import Image from "next/image"
+import { 
+  Clock, 
+  MapPin, 
+  GraduationCap, 
+  Euro, 
+  Calendar, 
+  Medal, 
+  Download, 
+  ChevronDown, 
+  CheckCircle2, 
+  Quote,
+  Target,
   Users,
-  Monitor,
-  Award,
-  CheckCircle,
-  ArrowLeft,
-  Share2,
-  Heart,
-  Calendar,
-  DollarSign,
+  Database,
+  BadgeCheck,
   Building2,
-} from 'lucide-react'
-import { Navbar } from '@/components/navbar'
-import { Footer } from '@/components/footer'
-import { useState, use } from 'react'
+  Network
+} from "lucide-react"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
+import { useState, use } from "react"
 
-const trainingsData = [
-  {
-    id: 1,
-    title: 'Management de Projet BTP – Niveau Expert',
-    institution: 'Institut Africain du Bâtiment',
-    location: 'Casablanca, Maroc',
-    duration: '6 mois',
-    level: 'Bac+3',
-    mode: 'Présentiel',
-    domain: 'Management BTP',
-    students: 120,
-    image: '/images/training-1.jpg',
-    price: '25 000 MAD',
-    description:
-      'Une formation complète en gestion de projets BTP couvrant les aspects techniques, financiers et humains. Destinée aux cadres et futurs managers du secteur de la construction.',
-    fullDescription: `Cette formation d'excellence est conçue pour développer les compétences de gestion de projet essentielles aux professionnels du BTP. Elle combine théorie et pratique avec des études de cas réelles.
-
-Les participants acquerront une expertise complète en:
-- Planification et suivi de projets complexes
-- Gestion budgétaire et contrôle des coûts
-- Management d'équipes multidisciplinaires
-- Évaluation et mitigation des risques
-- Communication et leadership en environnement BTP`,
+const trainingsData: Record<string, {
+  id: string
+  title: string
+  subtitle: string
+  level: string
+  duration: string
+  location: string
+  certification: string
+  price: string
+  nextSession: string
+  deadline: string
+  description: string
+  image: string
+  objectives: { icon: string; title: string; description: string }[]
+  program: { number: string; title: string; topics?: string[] }[]
+  partner: { name: string; description: string; badges: string[] }
+  testimonials: { quote: string; name: string; role: string; image: string }[]
+  targetAudience: { icon: string; label: string }[]
+}> = {
+  "expert-bim-manager": {
+    id: "expert-bim-manager",
+    title: "Expert BIM Manager",
+    subtitle: "Formation Certifiante RNCP Niveau 7",
+    level: "Bac +5",
+    duration: "6 mois",
+    location: "Hybride (Paris / Online)",
+    certification: "Titre RNCP Niveau 7",
+    price: "8 400 € TTC",
+    nextSession: "12 Octobre 2024",
+    deadline: "15 Septembre",
+    description: "Devenez un leader de la transformation numérique du bâtiment. Une certification d'excellence pour piloter des projets complexes et coordonner les équipes techniques.",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB711r0nUq8AURVuDCRy9JZeCvgEIDGkVWpaQhSjlvOO06h0ozxX3NWaMqE7dBOHe3bLs9GnIqEG5xcuHu_HvyE3DXtp8VxDPA1HUj5iMZZssibqU3uox31HOOTzFcDXhACyLEhGxgv66TEdOUD-3pVTzPmiyuIcWnDGaH9tPzSMjT38JF9eHSJ5Y85BcXTj-_CYHvTTbiVNeDd4WhD8wKQMK-WBmN2UvL8_0ZiO61ovvtn4vPAyAheKFvl7_5iBW1SX00Kub4MibX4",
     objectives: [
-      'Maîtriser les outils et méthodes de gestion de projet modernes',
-      "Développer des compétences en leadership et management d'équipe",
-      'Apprendre à gérer les budgets et les délais de chantier',
-      'Acquérir une expertise en prévention des risques et HSE',
-      'Comprendre les enjeux économiques et stratégiques du BTP africain',
+      { icon: "hub", title: "Stratégie BIM", description: "Définir et mettre en œuvre une convention BIM adaptée aux enjeux du projet et du client." },
+      { icon: "groups", title: "Management Agile", description: "Coordonner les équipes pluridisciplinaires (architectes, ingénieurs, exploitants)." },
+      { icon: "dataset", title: "Gestion de Data", description: "Assurer l'interopérabilité des données via les standards IFC et BCF." },
+      { icon: "verified", title: "Contrôle Qualité", description: "Vérifier la conformité des maquettes numériques et la cohérence des modèles." },
     ],
     program: [
-      {
-        week: '1-4',
-        title: 'Fondamentaux du Management de Projet',
-        topics: [
-          'Introduction aux méthodologies Agile et PMI',
-          'Planification et estimation budgétaire',
-          'Gestion des ressources',
-        ],
-      },
-      {
-        week: '5-8',
-        title: 'Gestion des Équipes et Leadership',
-        topics: [
-          "Dynamique d'équipe en contexte BTP",
-          'Leadership situationnel',
-          'Communication et résolution de conflits',
-        ],
-      },
-      {
-        week: '9-16',
-        title: 'Études de Cas et Projets Pratiques',
-        topics: [
-          'Suivi de chantiers réels',
-          'Gestion des imprévus',
-          'Projet final de synthèse',
-        ],
-      },
-      {
-        week: '17-24',
-        title: 'Spécialisations et Stage',
-        topics: [
-          'Gestion des contrats BTP',
-          'BIM et digitalisation',
-          'Stage en entreprise (2 mois)',
-        ],
-      },
+      { number: "01", title: "Fondamentaux et Stratégie BIM", topics: ["L'écosystème du BIM et les enjeux du cycle de vie", "Rédaction de la charte et du protocole BIM"] },
+      { number: "02", title: "Outils et Coordination Technique" },
+      { number: "03", title: "Management de Projet et Soft Skills" },
     ],
-    requirements: [
-      "Diplôme de niveau Bac+2 minimum ou 3 ans d'expérience professionnelle",
-      'Maîtrise du français et des outils informatiques basiques',
-      'Motivation et intérêt pour le secteur du BTP',
-    ],
-    certification: 'Diplôme reconnu par les chambres de commerce africaines',
-    startDates: ['15 Janvier 2025', '15 Avril 2025', '15 Septembre 2025'],
-    contact: {
-      email: 'info@iab.ma',
-      phone: '+212 522 XXX XXX',
-      website: 'www.iab.ma',
+    partner: {
+      name: "En partenariat avec Polytechnique",
+      description: "Ce programme d'excellence bénéficie de l'expertise académique de l'École Polytechnique. Nos intervenants sont des experts reconnus du secteur et des professeurs de rang international.",
+      badges: ["Diplôme Co-signé", "Réseau Alumni"],
     },
+    testimonials: [
+      { quote: "La formation m'a permis de structurer ma démarche BIM sur des projets hospitaliers complexes. L'approche par la donnée est révolutionnaire.", name: "Marc L.", role: "BIM Manager @ Vinci Construction", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAPfyyNSXNELb4Dr8OAupfpRZvGqTTktxempbvGHxEPNH3ZfFDHRjAbvEUZ8JMOpZHbffElzr-IMdrlEboqCWe4wktMndGe8XM751srbDQjoVDyug2mvMvKk3FdTFicccUVtB-s1WBJK0kng4hVpy2q5poN0e-oaJLhVFubIVijG2_bm11w3qsDsBnbH-QVN60lMou1qLWj2FXWlCPzPIyOVUSdJNETaAHPTmmqotCFegRZh5Ucz4fI6fg27Fhqqe7IQ6bHnMG6hFmB" },
+      { quote: "Un programme dense et complet. J'ai particulièrement apprécié les modules sur le cadre juridique et contractuel du BIM.", name: "Sophie D.", role: "Architecte Associée @ AIA Life Designers", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC2N27MgQA2McLnOf4IOmjYCUb3murLivksI9gPZsBj71m22VQlvKjJTLpmVdN9_yRzdkxbHS29G_y-5RjNrQXa-LX6Y-IeCi5GTrGKhjTCgaSjZyvGhG9pW8iSoNts7p0f6p8lCjofW8atQjAggwjGpDA6UVSOeWKwsLgHytdKmqXxEk1kWsdYUeegtfMh2qoCnaa1bss5Quut0rrI_Nb0teShCJszqKJHBY3w3S-KkENhVFaH7u1QRAknQR4opjLPujHUujiL4ea1" },
+    ],
+    targetAudience: [
+      { icon: "engineering", label: "Ingénieurs structures & CVC" },
+      { icon: "architecture", label: "Architectes & Maîtres d'œuvre" },
+      { icon: "apartment", label: "Gestionnaires de patrimoine" },
+    ],
   },
-  {
-    id: 2,
-    title: 'BIM – Modélisation des Informations du Bâtiment',
-    institution: 'ENITA Campus Dakar',
-    location: 'Dakar, Sénégal',
-    duration: '4 mois',
-    level: 'Bac+2',
-    mode: 'Hybride',
-    domain: 'BIM',
-    students: 80,
-    image: '/images/training-1.jpg',
-    price: '1 200 000 FCFA',
-    description: "Maîtrisez la modélisation BIM avec les outils leaders du marché. Formation intensive couvrant Revit, Navisworks et l'intégration BIM dans les flux de travail.",
-    fullDescription: `La formation BIM prépare les professionnels à l'utilisation des technologies de modélisation 3D dans les projets de construction modernes.
-
-Vous apprendrez à:
-- Créer et gérer des modèles BIM complets
-- Utiliser les principaux logiciels du marché
-- Intégrer le BIM dans les processus de projet
-- Collaborer en environnement numérique`,
+  "management-chantiers-eco": {
+    id: "management-chantiers-eco",
+    title: "Management de Chantiers Éco-responsables",
+    subtitle: "Certification Professionnelle",
+    level: "Bac +3",
+    duration: "3 mois",
+    location: "Présentiel (Dakar)",
+    certification: "Certificat de Compétences",
+    price: "4 500 € TTC",
+    nextSession: "15 Janvier 2025",
+    deadline: "20 Décembre",
+    description: "Gérez vos ressources et déchets de manière durable tout en optimisant la rentabilité opérationnelle de vos chantiers.",
+    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBCgA4YmmEqcdzQLpDgnWyhlhzFQvPeSGd739KHPi4xSvYItyWv3MBhTMtXq-p98qO6LOIhALz6QEh_QzxFWWJG1jWZCiGdHP-DAdsYuDEa3Y9IJDh3jnm6NS-hYZe-Hq3ocqm7UERRRaGbANgR_QKVXsx21Id6EOEWlcex7BwT8QSLWg3O4tLxeFEEliF7unuH0qLLOnt02XC0Rsc-SdOesdphfdZXFPTNcWRDmQ-9dZ3h5j_60r33aksctiezOchS71MgWxfrguAq",
     objectives: [
-      'Maîtriser Autodesk Revit et les outils BIM essentiels',
-      'Créer des modèles 3D complets et coordonnés',
-      'Exploiter les données BIM pour la gestion de projet',
-      'Collaborer efficacement en environnement BIM',
-      'Comprendre les enjeux de la transformation numérique',
+      { icon: "hub", title: "Économie Circulaire", description: "Mettre en place une gestion des déchets efficace et valoriser les matériaux." },
+      { icon: "groups", title: "Management Durable", description: "Piloter des équipes sensibilisées aux enjeux environnementaux." },
+      { icon: "dataset", title: "Certifications HQE/LEED", description: "Préparer et accompagner les projets vers les certifications environnementales." },
+      { icon: "verified", title: "RSE & Reporting", description: "Intégrer les indicateurs RSE dans le suivi de chantier." },
     ],
     program: [
-      {
-        week: '1-2',
-        title: 'Initiation à Revit',
-        topics: [
-          'Interface et commandes essentielles',
-          'Gestion des familles et composants',
-          'Création de plans et documents',
-        ],
-      },
-      {
-        week: '3-6',
-        title: 'Modélisation Avancée',
-        topics: ['Modèles multi-disciplinaires', 'Coordination des métiers', 'Navisworks'],
-      },
-      {
-        week: '7-12',
-        title: 'Projets Pratiques et Certification',
-        topics: [
-          'Projet complet de modélisation',
-          'Certification Autodesk',
-          'Préparation professionnelle',
-        ],
-      },
+      { number: "01", title: "Fondamentaux du Développement Durable", topics: ["Enjeux climatiques et réglementation", "Introduction aux certifications environnementales"] },
+      { number: "02", title: "Gestion des Ressources et Déchets" },
+      { number: "03", title: "Management et Communication RSE" },
     ],
-    requirements: [
-      'Connaissances basiques en architecture ou génie civil',
-      'Compétences informatiques intermédiaires',
-      'Accès à un ordinateur performant',
-    ],
-    certification: 'Certification Autodesk Revit + Diplôme ENITA',
-    startDates: ['10 Février 2025', '15 Mai 2025', '01 Octobre 2025'],
-    contact: {
-      email: 'formations@enita.sn',
-      phone: '+221 33 XXX XXX',
-      website: 'www.enita.sn',
+    partner: {
+      name: "En partenariat avec l'Institut de Management Africain",
+      description: "Une formation développée avec des experts du terrain et des professionnels de la construction durable en Afrique.",
+      badges: ["Certificat Reconnu", "Accompagnement Terrain"],
     },
+    testimonials: [
+      { quote: "Cette formation a transformé ma vision du chantier. On peut être rentable ET responsable.", name: "Amadou K.", role: "Chef de Chantier @ Eiffage Sénégal", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAPfyyNSXNELb4Dr8OAupfpRZvGqTTktxempbvGHxEPNH3ZfFDHRjAbvEUZ8JMOpZHbffElzr-IMdrlEboqCWe4wktMndGe8XM751srbDQjoVDyug2mvMvKk3FdTFicccUVtB-s1WBJK0kng4hVpy2q5poN0e-oaJLhVFubIVijG2_bm11w3qsDsBnbH-QVN60lMou1qLWj2FXWlCPzPIyOVUSdJNETaAHPTmmqotCFegRZh5Ucz4fI6fg27Fhqqe7IQ6bHnMG6hFmB" },
+      { quote: "Les cas pratiques sur des projets africains rendent la formation très concrète.", name: "Fatou M.", role: "Ingénieure Environnement @ Bouygues Africa", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC2N27MgQA2McLnOf4IOmjYCUb3murLivksI9gPZsBj71m22VQlvKjJTLpmVdN9_yRzdkxbHS29G_y-5RjNrQXa-LX6Y-IeCi5GTrGKhjTCgaSjZyvGhG9pW8iSoNts7p0f6p8lCjofW8atQjAggwjGpDA6UVSOeWKwsLgHytdKmqXxEk1kWsdYUeegtfMh2qoCnaa1bss5Quut0rrI_Nb0teShCJszqKJHBY3w3S-KkENhVFaH7u1QRAknQR4opjLPujHUujiL4ea1" },
+    ],
+    targetAudience: [
+      { icon: "engineering", label: "Chefs de chantier" },
+      { icon: "architecture", label: "Conducteurs de travaux" },
+      { icon: "apartment", label: "Responsables QSE" },
+    ],
   },
-]
+}
+
+// Default formation for fallback
+const defaultFormation = trainingsData["expert-bim-manager"]
+
+const iconMap: Record<string, React.ReactNode> = {
+  hub: <Network className="w-5 h-5" />,
+  groups: <Users className="w-5 h-5" />,
+  dataset: <Database className="w-5 h-5" />,
+  verified: <BadgeCheck className="w-5 h-5" />,
+  engineering: <Building2 className="w-5 h-5" />,
+  architecture: <GraduationCap className="w-5 h-5" />,
+  apartment: <Building2 className="w-5 h-5" />,
+}
 
 export default function FormationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
-  const training = trainingsData.find((t) => t.id === parseInt(resolvedParams.id))
-  const [isSaved, setIsSaved] = useState(false)
-
-  if (!training) {
-    return (
-      <div className="min-h-screen bg-[#f6f7f8]">
-        <Navbar />
-        <div className="mx-auto max-w-7xl px-4 py-20 text-center lg:px-8">
-          <h1 className="text-3xl font-bold text-[#0e1f2f]">Formation non trouvée</h1>
-          <Link
-            href="/formations"
-            className="mt-6 inline-flex items-center gap-2 text-[#F28C28] hover:text-orange-700"
-          >
-            <ArrowLeft size={18} />
-            Retour aux formations
-          </Link>
-        </div>
-        <Footer />
-      </div>
-    )
-  }
+  const training = trainingsData[resolvedParams.id] || defaultFormation
+  const [expandedModule, setExpandedModule] = useState<string | null>("01")
 
   return (
-    <div className="min-h-screen bg-[#f6f7f8] font-sans text-[#0e1f2f]">
+    <main className="bg-secondary min-h-screen">
       <Navbar />
 
-      {/* Breadcrumb */}
-      <div className="border-b border-slate-200 bg-white px-4 py-4 lg:px-8">
-        <div className="mx-auto flex max-w-7xl items-center gap-2 text-sm text-slate-500">
-          <Link href="/" className="hover:text-[#0e1f2f]">
-            Accueil
-          </Link>
-          <span>/</span>
-          <Link href="/formations" className="hover:text-[#0e1f2f]">
-            Formations
-          </Link>
-          <span>/</span>
-          <span className="text-[#0e1f2f]">{training.title}</span>
-        </div>
-      </div>
-
-      {/* Hero Header */}
-      <section className="relative overflow-hidden bg-white px-4 py-12 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <Link href="/formations" className="mb-6 inline-flex items-center gap-2 text-[#0e1f2f] hover:text-[#F28C28]">
-            <ArrowLeft size={18} />
-            Retour
-          </Link>
-          <h1 className="mb-4 text-4xl font-black text-[#0e1f2f] text-balance leading-tight">
-            {training.title}
-          </h1>
-          <div className="mb-8 flex flex-wrap items-center gap-4 text-slate-600">
-            <div className="flex items-center gap-2">
-              <Building2 size={18} className="text-[#F28C28]" />
-              <span>{training.institution}</span>
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          {/* Left Content */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F28C28]/10 text-[#F28C28] text-xs font-bold uppercase tracking-wider">
+                {training.subtitle}
+              </span>
+              <h1 className="text-4xl md:text-6xl font-bold text-[#0E1F2F] leading-tight">
+                {training.title}
+              </h1>
+              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+                {training.description}
+              </p>
             </div>
-            <div className="flex items-center gap-2">
-              <MapPin size={18} className="text-[#F28C28]" />
-              <span>{training.location}</span>
-            </div>
-            <span className="rounded-full bg-[#0e1f2f]/10 px-3 py-1 text-sm font-semibold text-[#0e1f2f]">
-              {training.domain}
-            </span>
-          </div>
 
-          {/* Key Info Cards */}
-          <div className="grid gap-4 md:grid-cols-5">
-            {[
-              { icon: Clock, label: 'Durée', value: training.duration },
-              { icon: GraduationCap, label: 'Niveau', value: training.level },
-              { icon: Monitor, label: 'Mode', value: training.mode },
-              { icon: Users, label: 'Participants', value: `${training.students}` },
-              { icon: DollarSign, label: 'Tarif', value: training.price },
-            ].map(({ icon: Icon, label, value }) => (
-              <div
-                key={label}
-                className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-4"
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0e1f2f]/10">
-                  <Icon size={18} className="text-[#F28C28]" />
-                </div>
+            {/* Key Info Cards */}
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-border flex-1 min-w-[160px]">
+                <GraduationCap className="w-8 h-8 text-[#F28C28]" />
                 <div>
-                  <p className="text-xs font-semibold text-slate-500">{label}</p>
-                  <p className="font-bold text-[#0e1f2f]">{value}</p>
+                  <p className="text-xs text-muted-foreground uppercase font-bold">Niveau</p>
+                  <p className="text-lg font-bold text-[#0E1F2F]">{training.level}</p>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 py-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:px-8">
-        {/* Left Column */}
-        <div className="lg:col-span-2">
-          {/* Overview */}
-          <section className="mb-10 rounded-xl bg-white p-8 shadow-sm">
-            <h2 className="mb-4 text-2xl font-bold text-[#0e1f2f]">Aperçu de la formation</h2>
-            <p className="leading-relaxed text-slate-600 whitespace-pre-line">{training.fullDescription}</p>
-          </section>
-
-          {/* Objectives */}
-          <section className="mb-10 rounded-xl bg-white p-8 shadow-sm">
-            <h2 className="mb-6 text-2xl font-bold text-[#0e1f2f]">Objectifs pédagogiques</h2>
-            <ul className="space-y-3">
-              {training.objectives.map((obj, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <CheckCircle size={20} className="mt-0.5 shrink-0 text-[#F28C28]" />
-                  <span className="text-slate-700">{obj}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* Program */}
-          <section className="mb-10 rounded-xl bg-white p-8 shadow-sm">
-            <h2 className="mb-6 text-2xl font-bold text-[#0e1f2f]">Programme de formation</h2>
-            <div className="space-y-6">
-              {training.program.map((module, i) => (
-                <div key={i} className="border-l-4 border-[#F28C28] pl-6">
-                  <div className="mb-2">
-                    <span className="text-xs font-bold text-[#F28C28]">Semaines {module.week}</span>
-                    <h3 className="text-lg font-bold text-[#0e1f2f]">{module.title}</h3>
-                  </div>
-                  <ul className="space-y-1">
-                    {module.topics.map((topic, j) => (
-                      <li key={j} className="flex items-center gap-2 text-slate-600">
-                        <span className="h-1 w-1 rounded-full bg-[#F28C28]" />
-                        {topic}
-                      </li>
-                    ))}
-                  </ul>
+              <div className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-border flex-1 min-w-[160px]">
+                <Clock className="w-8 h-8 text-[#F28C28]" />
+                <div>
+                  <p className="text-xs text-muted-foreground uppercase font-bold">Durée</p>
+                  <p className="text-lg font-bold text-[#0E1F2F]">{training.duration}</p>
                 </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Requirements */}
-          <section className="rounded-xl bg-white p-8 shadow-sm">
-            <h2 className="mb-6 text-2xl font-bold text-[#0e1f2f]">Prérequis</h2>
-            <ul className="space-y-3">
-              {training.requirements.map((req, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <CheckCircle size={20} className="mt-0.5 shrink-0 text-slate-400" />
-                  <span className="text-slate-700">{req}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-
-        {/* Right Sidebar */}
-        <div className="mt-10 lg:mt-0">
-          {/* CTA Card */}
-          <div className="mb-6 rounded-xl bg-white p-6 shadow-sm">
-            <div className="mb-6">
-              <p className="text-sm text-slate-500">Prochaines sessions :</p>
-              <ul className="mt-3 space-y-2">
-                {training.startDates.map((date, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-2 rounded-lg bg-[#0e1f2f]/5 px-3 py-2 text-sm font-medium text-[#0e1f2f]"
-                  >
-                    <Calendar size={14} />
-                    {date}
-                  </li>
-                ))}
-              </ul>
+              </div>
             </div>
 
-            <button className="w-full rounded-lg bg-[#F28C28] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-orange-700 mb-3">
-              S&apos;inscrire maintenant
-            </button>
-            <button className="w-full rounded-lg border-2 border-[#0e1f2f] px-6 py-3 text-sm font-bold text-[#0e1f2f] transition-colors hover:bg-[#0e1f2f]/5">
-              Demander plus d&apos;infos
-            </button>
-
-            <div className="mt-4 flex gap-2 border-t border-slate-200 pt-4">
-              <button
-                onClick={() => setIsSaved(!isSaved)}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg transition-colors ${
-                  isSaved
-                    ? 'bg-red-50 text-red-600'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                <Heart size={16} fill={isSaved ? 'currentColor' : 'none'} />
-                Sauvegarder
+            {/* CTA Buttons */}
+            <div className="flex items-center gap-4">
+              <button className="bg-[#0E1F2F] text-white px-8 py-4 rounded-xl font-bold hover:bg-[#0E1F2F]/95 shadow-lg shadow-[#0E1F2F]/20 transition-all">
+                Postuler à la session
               </button>
-              <button className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-slate-100 text-slate-600 transition-colors hover:bg-slate-200">
-                <Share2 size={16} />
-                Partager
+              <button className="flex items-center gap-2 text-[#0E1F2F] font-bold px-6 py-4 rounded-xl hover:bg-[#0E1F2F]/5 border border-transparent hover:border-[#0E1F2F]/10 transition-all">
+                <Download className="w-5 h-5" />
+                Brochure PDF
               </button>
             </div>
           </div>
 
-          {/* Certification */}
-          <div className="mb-6 rounded-xl bg-white p-6 shadow-sm">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#F28C28]/10">
-              <Award size={24} className="text-[#F28C28]" />
+          {/* Right Image */}
+          <div className="relative">
+            <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl bg-muted">
+              <Image
+                src={training.image}
+                alt={training.title}
+                fill
+                className="object-cover"
+              />
             </div>
-            <h3 className="mb-2 font-bold text-[#0e1f2f]">Certification obtenue</h3>
-            <p className="text-sm text-slate-600">{training.certification}</p>
-          </div>
-
-          {/* Contact */}
-          <div className="rounded-xl bg-[#0e1f2f] p-6 text-white">
-            <h3 className="mb-4 font-bold">Besoin d&apos;aide ?</h3>
-            <div className="space-y-3 text-sm">
-              <p>
-                <strong>Email :</strong>
-                <br />
-                <a href={`mailto:${training.contact.email}`} className="text-[#F28C28] hover:underline">
-                  {training.contact.email}
-                </a>
-              </p>
-              <p>
-                <strong>Téléphone :</strong>
-                <br />
-                <a href={`tel:${training.contact.phone}`} className="text-[#F28C28] hover:underline">
-                  {training.contact.phone}
-                </a>
-              </p>
-              <p>
-                <strong>Site web :</strong>
-                <br />
-                <a
-                  href={`https://${training.contact.website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#F28C28] hover:underline"
-                >
-                  {training.contact.website}
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Related Trainings */}
-      <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
-        <h2 className="mb-8 text-2xl font-bold text-[#0e1f2f]">Autres formations similaires</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          {trainingsData
-            .filter((t) => t.id !== training.id)
-            .slice(0, 2)
-            .map((t) => (
-              <Link
-                key={t.id}
-                href={`/formations/${t.id}`}
-                className="group rounded-lg border border-slate-200 bg-white p-6 transition-all hover:border-[#F28C28] hover:shadow-lg"
-              >
-                <div className="mb-3 flex items-start justify-between">
-                  <h3 className="font-bold text-[#0e1f2f] group-hover:text-[#F28C28]">{t.title}</h3>
-                </div>
-                <p className="mb-4 text-sm text-slate-600">{t.institution}</p>
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    { icon: Clock, value: t.duration },
-                    { icon: MapPin, value: t.location },
-                  ].map(({ icon: Icon, value }, i) => (
-                    <span key={i} className="flex items-center gap-1 text-xs text-slate-500">
-                      <Icon size={14} />
-                      {value}
-                    </span>
+            {/* Alumni Badge */}
+            <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl max-w-[240px] border border-border">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="flex -space-x-2">
+                  {training.testimonials.slice(0, 3).map((t, i) => (
+                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-muted overflow-hidden relative">
+                      <Image src={t.image} alt={t.name} fill className="object-cover" />
+                    </div>
                   ))}
                 </div>
-              </Link>
-            ))}
+                <span className="text-xs font-bold text-muted-foreground">+450 alumni</span>
+              </div>
+              <p className="text-sm font-medium text-foreground italic">"Une formation qui a propulsé ma carrière de 10 ans."</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-3 gap-12">
+          {/* Left Content */}
+          <div className="lg:col-span-2 space-y-16">
+            {/* Objectives */}
+            <section>
+              <h2 className="text-3xl font-bold text-[#0E1F2F] mb-8 flex items-center gap-3">
+                <Target className="w-8 h-8 text-[#F28C28]" />
+                Objectifs Pédagogiques
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {training.objectives.map((obj, i) => (
+                  <div key={i} className="p-6 bg-white rounded-2xl border border-border space-y-3">
+                    <span className="text-[#0E1F2F] bg-[#0E1F2F]/5 p-2 rounded-lg inline-block">
+                      {iconMap[obj.icon] || <Target className="w-5 h-5" />}
+                    </span>
+                    <h3 className="font-bold text-lg text-foreground">{obj.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{obj.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Program */}
+            <section>
+              <h2 className="text-3xl font-bold text-[#0E1F2F] mb-8">Programme détaillé</h2>
+              <div className="space-y-4">
+                {training.program.map((module) => (
+                  <div
+                    key={module.number}
+                    className="group border border-border rounded-2xl overflow-hidden bg-white hover:border-[#F28C28]/50 transition-colors"
+                  >
+                    <button
+                      onClick={() => setExpandedModule(expandedModule === module.number ? null : module.number)}
+                      className="w-full p-6 flex items-center justify-between cursor-pointer"
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className="w-8 h-8 flex items-center justify-center bg-[#0E1F2F] text-white rounded-lg font-bold text-sm">
+                          {module.number}
+                        </span>
+                        <h3 className="font-bold text-xl text-foreground">{module.title}</h3>
+                      </div>
+                      <ChevronDown className={`w-5 h-5 text-muted-foreground group-hover:text-[#F28C28] transition-transform ${expandedModule === module.number ? "rotate-180" : ""}`} />
+                    </button>
+                    {expandedModule === module.number && module.topics && (
+                      <div className="px-6 pb-6 pt-0 border-t border-border">
+                        <ul className="space-y-3 mt-4 text-muted-foreground">
+                          {module.topics.map((topic, i) => (
+                            <li key={i} className="flex items-start gap-3 text-sm">
+                              <CheckCircle2 className="w-5 h-5 text-[#F28C28] mt-0.5 shrink-0" />
+                              {topic}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Partner School */}
+            <section className="bg-[#0E1F2F] rounded-3xl p-8 text-white">
+              <div className="flex flex-col md:flex-row gap-8 items-center">
+                <div className="w-32 h-32 bg-white rounded-2xl flex items-center justify-center p-4 shrink-0">
+                  <div className="text-[#0E1F2F] font-bold text-center text-xs">POLYTECHNIQUE PARTNER</div>
+                </div>
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-bold italic">{training.partner.name}</h2>
+                  <p className="text-white/70">
+                    {training.partner.description}
+                  </p>
+                  <div className="flex gap-4 pt-2">
+                    {training.partner.badges.map((badge, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <Medal className="w-5 h-5 text-[#F28C28]" />
+                        <span className="text-sm font-semibold">{badge}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Testimonials */}
+            <section>
+              <h2 className="text-3xl font-bold text-[#0E1F2F] mb-8">Ce qu'en disent nos experts</h2>
+              <div className="grid sm:grid-cols-2 gap-8">
+                {training.testimonials.map((testimonial, i) => (
+                  <div key={i} className="space-y-4 p-8 bg-[#F28C28]/5 rounded-3xl relative">
+                    <Quote className="w-16 h-16 text-[#F28C28]/20 absolute top-4 right-4" />
+                    <p className="text-foreground italic leading-relaxed">
+                      "{testimonial.quote}"
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full grayscale overflow-hidden relative">
+                        <Image src={testimonial.image} alt={testimonial.name} fill className="object-cover" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-[#0E1F2F]">{testimonial.name}</p>
+                        <p className="text-xs text-muted-foreground">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="space-y-8">
+            {/* Info Card */}
+            <div className="bg-white rounded-3xl border border-border p-8 shadow-xl shadow-[#0E1F2F]/5 sticky top-28">
+              <h3 className="text-xl font-bold text-[#0E1F2F] mb-6">Informations clés</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <Euro className="w-5 h-5 text-[#F28C28] mt-1" />
+                  <div>
+                    <p className="text-xs font-bold text-muted-foreground uppercase">Frais de scolarité</p>
+                    <p className="text-xl font-bold text-[#0E1F2F]">{training.price}</p>
+                    <p className="text-xs text-muted-foreground mt-1">Éligible au CPF et OPCO</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Calendar className="w-5 h-5 text-[#F28C28] mt-1" />
+                  <div>
+                    <p className="text-xs font-bold text-muted-foreground uppercase">Prochaine rentrée</p>
+                    <p className="text-lg font-bold text-[#0E1F2F]">{training.nextSession}</p>
+                    <p className="text-xs text-muted-foreground mt-1">Date limite de candidature : {training.deadline}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <MapPin className="w-5 h-5 text-[#F28C28] mt-1" />
+                  <div>
+                    <p className="text-xs font-bold text-muted-foreground uppercase">Lieu</p>
+                    <p className="text-lg font-bold text-[#0E1F2F]">{training.location}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <Medal className="w-5 h-5 text-[#F28C28] mt-1" />
+                  <div>
+                    <p className="text-xs font-bold text-muted-foreground uppercase">Certification</p>
+                    <p className="text-lg font-bold text-[#0E1F2F]">{training.certification}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Form */}
+              <div className="mt-10 p-6 bg-[#0E1F2F] rounded-2xl text-white space-y-4">
+                <h4 className="font-bold text-center">Recevoir le programme</h4>
+                <form className="space-y-4">
+                  <input
+                    type="email"
+                    placeholder="Email professionnel"
+                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm focus:ring-[#F28C28] focus:border-[#F28C28] placeholder:text-white/50"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-[#F28C28] text-white font-bold py-3 rounded-xl hover:bg-[#F28C28]/90 transition-all shadow-lg shadow-[#F28C28]/20"
+                  >
+                    Demander la brochure
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            {/* Target Audience */}
+            <div className="bg-secondary rounded-3xl p-8 space-y-4">
+              <h3 className="font-bold text-[#0E1F2F]">Public visé</h3>
+              <div className="space-y-3">
+                {training.targetAudience.map((audience, i) => (
+                  <div key={i} className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <span className="text-[#0E1F2F]">
+                      {iconMap[audience.icon] || <Users className="w-5 h-5" />}
+                    </span>
+                    {audience.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
       <Footer />
-    </div>
+    </main>
   )
 }
