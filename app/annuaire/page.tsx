@@ -1,301 +1,353 @@
 import Link from "next/link"
-import Image from "next/image"
-import { Search, MapPin, Building2, ChevronRight, Star, Phone, Globe, ArrowRight } from "lucide-react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { SectionHeader } from "@/components/section-header"
+import {
+  Search,
+  MapPin,
+  Building2,
+  Star,
+  BadgeCheck,
+  Map,
+  HardHat,
+  PaintBucket,
+  Wrench,
+  Zap,
+  Cog,
+  Ruler,
+  Share2,
+  Users,
+  Rss,
+  ChevronDown,
+} from "lucide-react"
+
+export const metadata = {
+  title: "Annuaire B2B du Bâtiment | BATIMAG",
+  description:
+    "Trouvez vos partenaires, fournisseurs et prestataires au Maroc et en Afrique.",
+}
 
 const sectors = [
-  "Tous secteurs",
-  "Bâtiment Général",
-  "Génie Civil",
-  "Bureaux d'Études",
-  "Matériaux",
-  "Équipements",
-  "Électricité & Plomberie",
-  "Architecture",
-  "Promotion Immobilière",
-  "Topographie",
+  { icon: HardHat, label: "Gros Œuvre" },
+  { icon: PaintBucket, label: "Second Œuvre" },
+  { icon: Wrench, label: "Travaux Publics" },
+  { icon: Zap, label: "Lots Techniques" },
+  { icon: Ruler, label: "Ingénierie" },
+  { icon: Cog, label: "Équipements" },
 ]
 
-const countries = [
-  "Tous pays", "Maroc", "Côte d'Ivoire", "Sénégal", "Cameroun", "Kenya", "Éthiopie", "Égypte", "Algérie", "Nigeria",
-]
+const popularTags = ["Gros Œuvre", "Architectes", "Cimenterie", "Énergie Solaire"]
 
-const companies = [
+const premiumCompanies = [
   {
-    id: 1,
-    name: "STRABAG Maroc",
-    sector: "Génie Civil",
-    country: "Maroc",
+    name: "Holcim Maroc",
+    sector: "Cimenterie & Gros Œuvre",
     city: "Casablanca",
-    phone: "+212 5 22 XX XX XX",
-    website: "www.strabag.ma",
-    description: "Leader européen de la construction en Afrique du Nord, spécialisé dans les grands travaux d'infrastructure, routes et ouvrages d'art.",
-    rating: 4.8,
-    employees: "500-1000",
-    image: "/images/company-bg.jpg",
-    featured: true,
+    rating: "4.9",
+    initials: "HM",
+    bg: "#e8f0e8",
+    fg: "#2d5a2d",
   },
   {
-    id: 2,
-    name: "Bouygues Construction Afrique",
-    sector: "Bâtiment Général",
-    country: "Côte d'Ivoire",
-    city: "Abidjan",
-    phone: "+225 27 XX XX XX XX",
-    website: "www.bouygues-construction.com",
-    description: "Groupe international présent dans 80 pays, expert en construction de bâtiments complexes, hôtels, hôpitaux et centres commerciaux.",
-    rating: 4.7,
-    employees: "1000+",
-    image: "/images/company-bg.jpg",
-    featured: true,
-  },
-  {
-    id: 3,
-    name: "Eiffage Sénégal",
-    sector: "Génie Civil",
-    country: "Sénégal",
-    city: "Dakar",
-    phone: "+221 33 XX XX XX XX",
-    website: "www.eiffage.com",
-    description: "Référence en construction et services à l'énergie, Eiffage réalise les projets les plus emblématiques d'Afrique de l'Ouest.",
-    rating: 4.6,
-    employees: "500-1000",
-    image: "/images/company-bg.jpg",
-    featured: false,
-  },
-  {
-    id: 4,
-    name: "VINCI Construction",
-    sector: "Bâtiment Général",
-    country: "Kenya",
-    city: "Nairobi",
-    phone: "+254 20 XXX XX XX",
-    website: "www.vinci.com",
-    description: "Acteur mondial de la construction présent en Afrique de l'Est avec des projets de grande envergure dans les infrastructures publiques.",
-    rating: 4.5,
-    employees: "1000+",
-    image: "/images/company-bg.jpg",
-    featured: false,
-  },
-  {
-    id: 5,
-    name: "COVEC Africa",
-    sector: "Génie Civil",
-    country: "Maroc",
+    name: "Jet Contractors",
+    sector: "Ingénierie & Façades",
     city: "Rabat",
-    phone: "+212 5 37 XX XX XX",
-    website: "www.covec.ma",
-    description: "Spécialiste des travaux routiers, ferroviaires et hydrauliques en Afrique, COVEC réalise des projets d'infrastructure majeurs.",
-    rating: 4.4,
-    employees: "200-500",
-    image: "/images/company-bg.jpg",
-    featured: false,
+    rating: "4.8",
+    initials: "JC",
+    bg: "#1a3044",
+    fg: "#ffffff",
   },
   {
-    id: 6,
-    name: "Cabinet BCEOM",
-    sector: "Bureaux d'Études",
-    country: "Sénégal",
-    city: "Dakar",
-    phone: "+221 33 XX XX XX XX",
-    website: "www.bceom.com",
-    description: "Bureau d'études pluridisciplinaire international expert en ingénierie civile, environnementale et de transport.",
-    rating: 4.7,
-    employees: "100-200",
-    image: "/images/company-bg.jpg",
-    featured: false,
+    name: "Schneider Electric",
+    sector: "Équipements Électriques",
+    city: "Casablanca",
+    rating: "5.0",
+    initials: "SE",
+    bg: "#1a3044",
+    fg: "#ffffff",
   },
 ]
+
+const footerSolutions = ["Annuaire Pro", "Espace Appels d'offres", "Publicité & Visibilité", "Marketplace Matériaux"]
+const footerCompany = ["À propos", "Contactez-nous", "Mentions légales", "Aide & Support"]
 
 export default function AnnuairePage() {
   return (
-    <main>
-      <Navbar />
-
-      {/* Page header */}
-      <section className="bg-[#0E1F2F] py-10">
-        <div className="max-w-7xl mx-auto px-4">
-          <nav className="flex items-center gap-2 text-white/40 text-xs mb-3">
-            <Link href="/" className="hover:text-[#F28C28] transition-colors">Accueil</Link>
-            <ChevronRight className="w-3 h-3" />
-            <span className="text-white/70">Annuaire Entreprises BTP</span>
-          </nav>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-            Annuaire Entreprises BTP
-          </h1>
-          <p className="text-white/60 text-base">
-            Retrouvez les entreprises leaders du secteur de la construction en Afrique
-          </p>
-        </div>
-      </section>
-
-      {/* Search bar */}
-      <div className="bg-secondary border-b border-border py-4">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-3">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Nom d'entreprise, activité..."
-                className="w-full pl-9 pr-4 py-2.5 text-sm bg-background border border-border focus:outline-none focus:ring-2 focus:ring-[#F28C28]"
-              />
-            </div>
-            <select className="px-4 py-2.5 text-sm bg-background border border-border focus:outline-none focus:ring-2 focus:ring-[#F28C28] text-foreground min-w-[180px]">
-              {sectors.map((s) => <option key={s}>{s}</option>)}
-            </select>
-            <select className="px-4 py-2.5 text-sm bg-background border border-border focus:outline-none focus:ring-2 focus:ring-[#F28C28] text-foreground min-w-[150px]">
-              {countries.map((c) => <option key={c}>{c}</option>)}
-            </select>
-            <button className="bg-[#F28C28] text-white text-sm font-bold px-6 py-2.5 hover:bg-orange-600 transition-colors flex items-center gap-2">
-              <Search className="w-4 h-4" />
-              Rechercher
+    <div className="min-h-screen bg-[#f6f7f8] font-sans text-[#0e1f2f]">
+      {/* Navbar */}
+      <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
+          <div className="flex items-center gap-8">
+            <Link href="/" className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0e1f2f] text-white">
+                <Building2 size={20} />
+              </div>
+              <span className="text-xl font-black tracking-tight text-[#0e1f2f]">BATIMAG</span>
+            </Link>
+            <nav className="hidden items-center gap-6 lg:flex">
+              {["Annuaire", "Appels d'offres", "Actualités", "Secteurs"].map((item) => (
+                <Link
+                  key={item}
+                  href="#"
+                  className="text-sm font-semibold text-[#0e1f2f] transition-colors hover:text-[#F28C28]"
+                >
+                  {item}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <div className="flex items-center gap-4">
+            <button className="hidden text-sm font-medium text-[#0e1f2f] transition-colors hover:text-[#F28C28] lg:block">
+              Se connecter
+            </button>
+            <button className="rounded-lg bg-[#0e1f2f] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#1a3044]">
+              Inscrire votre entreprise
             </button>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-          {[
-            { value: "2 500+", label: "Entreprises référencées" },
-            { value: "45", label: "Pays couverts" },
-            { value: "15", label: "Secteurs d'activité" },
-            { value: "850+", label: "Mises en relation" },
-          ].map((stat) => (
-            <div key={stat.label} className="bg-secondary border border-border p-4 text-center">
-              <p className="text-[#F28C28] text-2xl font-bold">{stat.value}</p>
-              <p className="text-muted-foreground text-xs mt-0.5">{stat.label}</p>
+      {/* Hero Search */}
+      <section
+        className="relative flex min-h-[420px] w-full items-center justify-center overflow-hidden bg-[#0e1f2f] px-4 py-20"
+      >
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: "url('/images/hero-construction.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="relative z-10 mx-auto w-full max-w-4xl text-center">
+          <h1 className="mb-3 text-4xl font-black text-white md:text-6xl text-balance">
+            Annuaire B2B du Bâtiment
+          </h1>
+          <p className="mb-10 text-lg text-slate-300">
+            Trouvez vos partenaires, fournisseurs et prestataires au Maroc et en Afrique.
+          </p>
+
+          {/* Search Bar */}
+          <div className="flex flex-col overflow-hidden rounded-xl bg-white shadow-2xl md:flex-row">
+            <div className="flex flex-1 items-center gap-2 border-b border-slate-200 px-4 py-3 md:border-b-0 md:border-r">
+              <Search size={18} className="shrink-0 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Entreprise, produit ou service..."
+                className="w-full border-none bg-transparent text-sm text-[#0e1f2f] placeholder:text-slate-400 focus:outline-none"
+              />
             </div>
-          ))}
-        </div>
+            <div className="flex flex-1 items-center gap-2 px-4 py-3">
+              <MapPin size={18} className="shrink-0 text-slate-400" />
+              <select className="w-full cursor-pointer appearance-none border-none bg-transparent text-sm text-[#0e1f2f] focus:outline-none">
+                <option>Tout le Maroc</option>
+                <option>Afrique du Nord</option>
+                <option>Afrique de l&apos;Ouest</option>
+                <option>International</option>
+              </select>
+              <ChevronDown size={14} className="shrink-0 text-slate-400" />
+            </div>
+            <button className="flex shrink-0 items-center justify-center gap-2 bg-[#0e1f2f] px-8 py-4 text-sm font-bold text-white transition-colors hover:bg-[#1a3044]">
+              <Search size={16} />
+              Rechercher
+            </button>
+          </div>
 
-        {/* Featured companies */}
-        <div className="mb-10">
-          <SectionHeader
-            title="Entreprises Premium"
-            subtitle="Les acteurs majeurs du BTP africain"
-            href="#"
-            linkLabel="Voir tous"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {companies.filter((c) => c.featured).map((company) => (
-              <div key={company.id} className="border border-[#F28C28]/30 overflow-hidden hover:shadow-lg transition-shadow bg-background">
-                <div className="relative h-40 overflow-hidden">
-                  <Image
-                    src={company.image}
-                    alt={company.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-[#0E1F2F]/60" />
-                  <div className="absolute top-3 right-3 bg-[#F28C28] text-white text-xs font-bold px-2.5 py-1">
-                    Premium
-                  </div>
-                  <div className="absolute bottom-4 left-4">
-                    <h3 className="text-white text-xl font-bold">{company.name}</h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="bg-white/20 text-white text-xs px-2 py-0.5">{company.sector}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2">
-                    {company.description}
-                  </p>
-                  <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground mb-4">
-                    <div className="flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#F28C28]" />
-                      <span>{company.city}, {company.country}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Building2 className="w-3.5 h-3.5 text-[#F28C28]" />
-                      <span>{company.employees} employés</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-[#F28C28]" />
-                      <span>{company.phone}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Globe className="w-3.5 h-3.5 text-[#F28C28]" />
-                      <span>{company.website}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 fill-[#F28C28] text-[#F28C28]" />
-                      <span className="text-sm font-bold text-foreground">{company.rating}</span>
-                    </div>
-                    <Link href="#" className="text-[#F28C28] text-sm font-semibold flex items-center gap-1 hover:text-orange-700 transition-colors">
-                      Voir la fiche <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
+          {/* Popular Tags */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-slate-400">
+            <span className="font-medium">Populaire :</span>
+            {popularTags.map((tag) => (
+              <a
+                key={tag}
+                href="#"
+                className="underline underline-offset-2 transition-colors hover:text-white"
+              >
+                {tag}
+              </a>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* All companies */}
-        <SectionHeader title="Toutes les entreprises" />
-        <div className="grid grid-cols-1 gap-4">
-          {companies.map((company) => (
-            <Link
-              key={company.id}
-              href="#"
-              className="group flex flex-col md:flex-row gap-0 border border-border hover:border-[#F28C28] hover:shadow-md transition-all bg-background"
+      {/* Sectors */}
+      <section className="mx-auto w-full max-w-7xl px-4 py-16 lg:px-8">
+        <div className="mb-10 flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-[#0e1f2f]">Explorer par Secteur</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Naviguez à travers nos catégories professionnelles spécialisées
+            </p>
+          </div>
+          <a
+            href="#"
+            className="whitespace-nowrap text-sm font-bold text-[#0e1f2f] underline underline-offset-2 transition-colors hover:text-[#F28C28]"
+          >
+            Voir tous les secteurs
+          </a>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          {sectors.map(({ icon: Icon, label }) => (
+            <button
+              key={label}
+              className="group flex cursor-pointer flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-6 transition-all hover:border-[#0e1f2f] hover:shadow-lg"
             >
-              <div className="relative w-full md:w-32 h-24 md:h-auto shrink-0 overflow-hidden">
-                <Image
-                  src={company.image}
-                  alt={company.name}
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-[#0E1F2F]/40" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0e1f2f]/10 text-[#0e1f2f] transition-colors group-hover:bg-[#0e1f2f] group-hover:text-white">
+                <Icon size={22} />
               </div>
-              <div className="flex-1 p-5 flex flex-col md:flex-row md:items-center gap-4 justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-base font-bold text-foreground group-hover:text-[#F28C28] transition-colors">
-                      {company.name}
-                    </h3>
-                    {company.featured && (
-                      <span className="bg-[#F28C28] text-white text-xs font-bold px-1.5 py-0.5">Premium</span>
-                    )}
-                  </div>
-                  <p className="text-muted-foreground text-sm line-clamp-1 mb-2">{company.description}</p>
-                  <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-                    <span className="bg-secondary px-2 py-0.5 font-medium text-foreground">{company.sector}</span>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-[#F28C28]" />
-                      {company.city}, {company.country}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Building2 className="w-3 h-3 text-[#F28C28]" />
-                      {company.employees} employés
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 shrink-0">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-[#F28C28] text-[#F28C28]" />
-                    <span className="text-sm font-bold">{company.rating}</span>
-                  </div>
-                  <span className="text-[#F28C28] font-semibold text-sm flex items-center gap-1">
-                    Voir <ArrowRight className="w-4 h-4" />
-                  </span>
-                </div>
-              </div>
-            </Link>
+              <span className="text-center text-sm font-bold text-[#0e1f2f]">{label}</span>
+            </button>
           ))}
         </div>
-      </div>
+      </section>
 
-      <Footer />
-    </main>
+      {/* Premium Companies + Geographic Search */}
+      <section className="bg-slate-100">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 lg:grid-cols-2 lg:px-8">
+          {/* Companies List */}
+          <div>
+            <div className="mb-8 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-[#0e1f2f]">Entreprises Premium</h2>
+              <span className="text-sm font-medium text-slate-500">Mise en avant</span>
+            </div>
+            <div className="flex flex-col gap-4">
+              {premiumCompanies.map((company) => (
+                <div
+                  key={company.name}
+                  className="flex items-center gap-4 rounded-xl bg-white p-4 shadow-sm transition-transform hover:-translate-y-0.5"
+                >
+                  <div
+                    className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg text-base font-black"
+                    style={{ backgroundColor: company.bg, color: company.fg }}
+                  >
+                    {company.initials}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="truncate font-bold text-[#0e1f2f]">{company.name}</h3>
+                      <BadgeCheck size={16} className="shrink-0 text-blue-500" />
+                    </div>
+                    <p className="truncate text-sm text-slate-500">{company.sector}</p>
+                    <div className="mt-1 flex items-center gap-3 text-xs text-slate-400">
+                      <span className="flex items-center gap-1">
+                        <MapPin size={11} /> {company.city}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Star size={11} /> {company.rating}
+                      </span>
+                    </div>
+                  </div>
+                  <button className="shrink-0 rounded-lg border border-[#0e1f2f] px-3 py-1.5 text-xs font-bold text-[#0e1f2f] transition-colors hover:bg-[#0e1f2f] hover:text-white">
+                    Profil
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Geographic Search Card */}
+          <div
+            className="relative flex min-h-[360px] items-center justify-center overflow-hidden rounded-2xl shadow-xl"
+            style={{
+              backgroundImage: "url('/images/company-bg.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="absolute inset-0 bg-[#0e1f2f]/70" />
+            <div className="relative z-10 flex flex-col items-center p-12 text-center text-white">
+              <Map size={52} className="mb-4 opacity-80" />
+              <h3 className="mb-4 text-3xl font-black">Recherche Géographique</h3>
+              <p className="mb-8 max-w-xs leading-relaxed text-slate-200">
+                Localisez les entreprises les plus proches de vos chantiers sur
+                l&apos;ensemble du territoire national et panafricain.
+              </p>
+              <button className="rounded-lg bg-white px-8 py-3 font-bold text-[#0e1f2f] shadow-lg transition-transform hover:scale-105">
+                Ouvrir la carte interactive
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="mx-auto w-full max-w-7xl px-4 py-20 lg:px-8">
+        <div className="flex flex-col items-center justify-between gap-8 rounded-3xl bg-[#0e1f2f] px-10 py-14 md:flex-row">
+          <div className="max-w-xl text-center md:text-left">
+            <h2 className="mb-4 text-3xl font-black text-white text-balance">
+              Augmentez votre visibilité professionnelle
+            </h2>
+            <p className="leading-relaxed text-slate-400">
+              Rejoignez le premier annuaire B2B de la construction au Maroc. Générez des
+              leads qualifiés et trouvez vos futurs partenaires stratégiques.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-col gap-4 sm:flex-row">
+            <button className="rounded-xl bg-white px-8 py-4 text-sm font-black text-[#0e1f2f] transition-colors hover:bg-slate-100">
+              Inscrire mon entreprise
+            </button>
+            <button className="rounded-xl border border-white/20 bg-white/10 px-8 py-4 text-sm font-black text-white backdrop-blur transition-colors hover:bg-white/20">
+              Demander un devis
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-200 bg-white px-4 py-12 lg:px-8">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded bg-[#0e1f2f] text-white">
+                <Building2 size={16} />
+              </div>
+              <span className="text-xl font-black tracking-tight text-[#0e1f2f]">BATIMAG</span>
+            </div>
+            <p className="text-sm leading-relaxed text-slate-500">
+              L&apos;écosystème digital n°1 dédié aux professionnels du bâtiment et des travaux
+              publics en Afrique.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="mb-4 font-bold text-[#0e1f2f]">Solutions</h4>
+            <ul className="space-y-2 text-sm text-slate-500">
+              {footerSolutions.map((item) => (
+                <li key={item}>
+                  <a href="#" className="transition-colors hover:text-[#0e1f2f]">{item}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="mb-4 font-bold text-[#0e1f2f]">L&apos;entreprise</h4>
+            <ul className="space-y-2 text-sm text-slate-500">
+              {footerCompany.map((item) => (
+                <li key={item}>
+                  <a href="#" className="transition-colors hover:text-[#0e1f2f]">{item}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="mb-4 font-bold text-[#0e1f2f]">Suivez-nous</h4>
+            <div className="flex gap-3">
+              {[Share2, Users, Rss].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-[#0e1f2f] hover:text-white"
+                >
+                  <Icon size={18} />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-12 max-w-7xl border-t border-slate-100 pt-8 text-center text-xs text-slate-400">
+          <p>© 2024 BATIMAG. Tous droits réservés. Plateforme propulsée par B2B Construction Digital.</p>
+        </div>
+      </footer>
+    </div>
   )
 }
