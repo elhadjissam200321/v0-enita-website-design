@@ -186,7 +186,7 @@ export default function FormationsPage() {
             {trainings.filter((t) => t.featured).map((training) => (
               <Link
                 key={training.id}
-                href="#"
+                href={`/formations/${training.id}`}
                 className="group flex gap-0 bg-background border border-[#F28C28]/40 overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <div className="relative w-44 shrink-0 overflow-hidden">
@@ -243,7 +243,7 @@ export default function FormationsPage() {
             return (
               <Link
                 key={training.id}
-                href="#"
+                href={`/formations/${training.id}`}
                 className="group bg-background border border-border overflow-hidden hover:shadow-lg hover:border-[#F28C28]/40 transition-all"
               >
                 <div className="relative h-44 overflow-hidden">
