@@ -173,20 +173,20 @@ export default function ContactPage() {
             <div className="space-y-6 mt-12">
               {[
                 {
-                  q: 'Comment m'inscrire sur BATIMAG ?',
-                  a: 'L\'inscription sur BATIMAG est gratuite et simple. Cliquez sur "S\'inscrire" en haut de la page, remplissez vos informations et commencez à explorer nos contenus et services.'
+                  q: "Comment m'inscrire sur BATIMAG ?",
+                  a: "L'inscription sur BATIMAG est gratuite et simple. Cliquez sur \"S'inscrire\" en haut de la page, remplissez vos informations et commencez à explorer nos contenus et services."
                 },
                 {
                   q: 'Quels sont les tarifs des services premium ?',
                   a: 'Nos tarifs varient selon les services. Pour obtenir un devis personnalisé selon vos besoins spécifiques, veuillez nous contacter directement.'
                 },
                 {
-                  q: 'Comment publier une offre d\'emploi ?',
-                  a: 'Les entreprises peuvent publier des offres d\'emploi directement sur notre plateforme. Contactez notre équipe pour les modalités et tarifs de publication.'
+                  q: "Comment publier une offre d'emploi ?",
+                  a: "Les entreprises peuvent publier des offres d'emploi directement sur notre plateforme. Contactez notre équipe pour les modalités et tarifs de publication."
                 },
                 {
-                  q: 'Pouvez-vous m\'aider à trouver un partenaire commercial ?',
-                  a: 'Oui ! Notre annuaire répertorie les principales entreprises du secteur. Contactez notre équipe B2B pour explorer les opportunités de partenariat.'
+                  q: "Pouvez-vous m'aider à trouver un partenaire commercial ?",
+                  a: "Oui ! Notre annuaire répertorie les principales entreprises du secteur. Contactez notre équipe B2B pour explorer les opportunités de partenariat."
                 },
               ].map((item, i) => (
                 <details key={i} className="bg-background p-6 border border-border group">
