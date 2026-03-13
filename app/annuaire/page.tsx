@@ -16,6 +16,7 @@ import {
   Users,
   Rss,
   ChevronDown,
+  ChevronRight,
 } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -205,9 +206,12 @@ export default function AnnuairePage() {
                       </span>
                     </div>
                   </div>
-                  <button className="shrink-0 rounded-lg border border-[#0e1f2f] px-3 py-1.5 text-xs font-bold text-[#0e1f2f] transition-colors hover:bg-[#0e1f2f] hover:text-white">
+                  <Link
+                    href={`/annuaire/${company.name.toLowerCase().replace(/\s+/g, "-")}`}
+                    className="shrink-0 rounded-lg border border-[#0e1f2f] px-3 py-1.5 text-xs font-bold text-[#0e1f2f] transition-colors hover:bg-[#0e1f2f] hover:text-white"
+                  >
                     Profil
-                  </button>
+                  </Link>
                 </div>
               ))}
             </div>
