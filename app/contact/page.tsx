@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export const metadata = {
   title: 'Contact | BATIMAG',
-  description: 'Contactez l\'équipe de BATIMAG pour vos questions, partenariats ou publicités.',
+  description: "Contactez l'équipe de BATIMAG pour vos questions, partenariats ou publicités.",
 }
 
 export default function ContactPage() {
@@ -118,7 +118,7 @@ export default function ContactPage() {
                       <option value="partnership">Partenariat</option>
                       <option value="advertising">Publicité</option>
                       <option value="content">Contenu</option>
-                      <option value="job">Offre d'emploi</option>
+                      <option value="job">Offre d&apos;emploi</option>
                       <option value="training">Formation</option>
                       <option value="other">Autre</option>
                     </select>
