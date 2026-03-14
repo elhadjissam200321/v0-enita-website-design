@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Search, MapPin, Building2, Clock, Briefcase, Filter, X } from 'lucide-react'
+import { Search, MapPin, Building2, Clock, Briefcase, Filter, X, Home, Newspaper, User } from 'lucide-react'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 
@@ -123,13 +123,18 @@ export default function EmploisPage() {
       <Navbar />
 
       {/* MOBILE LAYOUT */}
-      <div className="lg:hidden flex flex-col h-screen">
+      <div className="lg:hidden flex flex-col h-screen bg-[#f6f7f8]">
         {/* Mobile Header */}
-        <header className="sticky top-0 z-40 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-          <div className="flex items-center justify-between p-4 gap-2">
-            <h1 className="text-lg font-bold text-slate-900 dark:text-white">Offres d'Emplois</h1>
-            <button className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
-              <Search className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+        <header className="sticky top-0 z-40 bg-white border-b border-[#0e1f2f]/10">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-2">
+              <div className="bg-[#0e1f2f] p-1.5 rounded-lg">
+                <Building2 className="w-5 h-5 text-white" />
+              </div>
+              <h1 className="text-[#0e1f2f] text-lg font-bold">InfraBuild <span className="text-[#F28C28]">Africa</span></h1>
+            </div>
+            <button className="p-2 hover:bg-slate-100 rounded-full">
+              <Clock className="w-5 h-5 text-[#0e1f2f]" />
             </button>
           </div>
 
@@ -139,141 +144,87 @@ export default function EmploisPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Poste, entreprise..."
+                placeholder="Senior Project Manager, Civil Engineer..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-[#F28C28] focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 bg-white border border-[#0e1f2f]/10 rounded-xl text-sm focus:ring-2 focus:ring-[#F28C28] focus:border-transparent"
               />
             </div>
           </div>
 
           {/* Mobile Filter Pills */}
           <div className="flex gap-2 px-4 pb-4 overflow-x-auto no-scrollbar">
-            <button className="flex items-center gap-1 shrink-0 h-10 rounded-full bg-[#0e1f2f] text-white px-4 text-sm font-medium">
+            <button className="flex items-center gap-2 shrink-0 h-10 rounded-full bg-[#0e1f2f] text-white px-4 text-sm font-medium hover:bg-[#0e1f2f]/90">
               <MapPin className="w-4 h-4" />
               Location
+              <Clock className="w-3.5 h-3.5" />
             </button>
-            <button className="flex items-center gap-1 shrink-0 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-sm font-medium text-slate-900 dark:text-white">
+            <button className="flex items-center gap-2 shrink-0 h-10 rounded-full bg-white border border-[#0e1f2f]/10 px-4 text-sm font-medium text-[#0e1f2f] hover:bg-slate-50">
               <Briefcase className="w-4 h-4" />
               Contract
+              <Clock className="w-3.5 h-3.5" />
             </button>
-            <button className="flex items-center gap-1 shrink-0 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-sm font-medium text-slate-900 dark:text-white">
+            <button className="flex items-center gap-2 shrink-0 h-10 rounded-full bg-white border border-[#0e1f2f]/10 px-4 text-sm font-medium text-[#0e1f2f] hover:bg-slate-50">
               <Building2 className="w-4 h-4" />
               Sector
+              <Clock className="w-3.5 h-3.5" />
             </button>
-            <button
-              onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-              className="flex items-center gap-1 shrink-0 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-sm font-medium text-slate-900 dark:text-white"
-            >
+            <button className="flex items-center gap-2 shrink-0 h-10 rounded-full bg-white border border-[#0e1f2f]/10 px-4 text-sm font-medium text-[#0e1f2f] hover:bg-slate-50">
               <Filter className="w-4 h-4" />
-              Filtres
+              Salary
+              <Clock className="w-3.5 h-3.5" />
             </button>
           </div>
         </header>
 
-        {/* Mobile Filters Drawer */}
-        {mobileFiltersOpen && (
-          <div className="fixed inset-0 z-50 bg-black/50 lg:hidden" onClick={() => setMobileFiltersOpen(false)}>
-            <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-800 rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Filtres</h3>
-                <button onClick={() => setMobileFiltersOpen(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-bold text-slate-600 dark:text-slate-300 uppercase mb-2 block">Secteur</label>
-                  <select
-                    value={selectedSector}
-                    onChange={(e) => setSelectedSector(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-                  >
-                    {sectors.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-sm font-bold text-slate-600 dark:text-slate-300 uppercase mb-2 block">Type de contrat</label>
-                  <select
-                    value={selectedContract}
-                    onChange={(e) => setSelectedContract(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-                  >
-                    {contractTypes.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-sm font-bold text-slate-600 dark:text-slate-300 uppercase mb-2 block">Localisation</label>
-                  <select
-                    value={selectedLocation}
-                    onChange={(e) => setSelectedLocation(e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-                  >
-                    {locations.map((l) => (
-                      <option key={l} value={l}>
-                        {l}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Mobile Job List */}
         <div className="flex-1 overflow-y-auto pb-24">
-          <div className="p-4 space-y-3">
+          <div className="p-4 space-y-4">
             <div className="flex justify-between items-center mb-2">
-              <h2 className="text-base font-bold text-slate-900 dark:text-white">Featured Opportunities</h2>
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">{filteredJobs.length} Results</span>
+              <h2 className="text-[#0e1f2f] text-lg font-bold">Featured Opportunities</h2>
+              <span className="text-xs font-semibold text-[#0e1f2f]/60">{filteredJobs.length} Results</span>
             </div>
 
             {filteredJobs.map((job) => (
               <Link
                 key={job.id}
                 href={`/emplois/${job.id}`}
-                className="bg-white dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-[#F28C28]/30 transition-all"
+                className="bg-white p-5 rounded-xl border border-[#0e1f2f]/5 shadow-sm hover:border-[#F28C28]/30 transition-all"
               >
-                <div className="flex justify-between items-start mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center shrink-0">
-                    <Building2 className="w-5 h-5 text-[#F28C28]" />
+                <div className="flex justify-between items-start mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-[#0e1f2f]/5 flex items-center justify-center">
+                    <img 
+                      alt={job.company}
+                      src={job.logo}
+                      className="w-8 h-8 object-contain rounded"
+                    />
                   </div>
                   {job.premium && (
-                    <span className="bg-[#F28C28]/10 text-[#F28C28] text-[10px] font-bold px-2 py-1 rounded uppercase">Premium</span>
+                    <span className="bg-[#F28C28]/10 text-[#F28C28] text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Premium</span>
                   )}
                 </div>
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-tight mb-1">{job.title}</h3>
-                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium mb-3">{job.company}</p>
 
-                <div className="flex flex-wrap gap-2 mb-3">
-                  <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 px-2 py-1 rounded text-[10px] font-semibold text-slate-600 dark:text-slate-300">
-                    <MapPin className="w-3 h-3" />
+                <h3 className="text-[#0e1f2f] font-bold text-lg mb-1 leading-tight">{job.title}</h3>
+                <p className="text-[#0e1f2f]/70 text-sm font-medium mb-4">{job.company}</p>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex items-center gap-1 bg-[#f6f7f8] px-2 py-1 rounded text-[11px] font-semibold text-[#0e1f2f]/70">
+                    <MapPin className="w-3.5 h-3.5" />
                     {job.location.split(',')[0]}
                   </div>
-                  <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-2 py-1 rounded text-[10px] font-bold">
+                  <div className="flex items-center gap-1 bg-[#0e1f2f]/10 text-[#0e1f2f] px-2 py-1 rounded text-[11px] font-bold">
+                    <Briefcase className="w-3.5 h-3.5" />
                     {job.contract}
                   </div>
-                  <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-700 px-2 py-1 rounded text-[10px] font-semibold text-slate-600 dark:text-slate-300">
-                    <Clock className="w-3 h-3" />
+                  <div className="flex items-center gap-1 bg-[#f6f7f8] px-2 py-1 rounded text-[11px] font-semibold text-[#0e1f2f]/70">
+                    <Clock className="w-3.5 h-3.5" />
                     {job.posted}
                   </div>
                 </div>
 
-                <div className="border-t border-slate-200 dark:border-slate-700 pt-3 flex items-center justify-between">
+                <div className="border-t border-[#0e1f2f]/5 pt-4 flex items-center justify-between">
                   <span className="text-[#F28C28] font-bold text-sm">{job.salary}</span>
-                  <button className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold px-4 py-2 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
+                  <button className="bg-[#0e1f2f] text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-[#0e1f2f]/90">
                     View Details
                   </button>
                 </div>
@@ -283,28 +234,28 @@ export default function EmploisPage() {
         </div>
 
         {/* Mobile Bottom Navigation */}
-        <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-2 py-3 z-40">
+        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#0e1f2f]/10 px-2 pb-6 pt-2 z-40">
           <div className="flex justify-around items-center max-w-md mx-auto">
-            <Link href="/" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-              <Building2 className="w-5 h-5" />
-              <span className="text-[10px] font-bold uppercase">Home</span>
+            <Link href="/" className="flex flex-col items-center gap-1 py-1 px-3 text-[#0e1f2f]/50 hover:text-[#0e1f2f] transition-colors">
+              <Home className="w-5 h-5" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Home</span>
             </Link>
-            <Link href="/annuaire" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+            <Link href="/annuaire" className="flex flex-col items-center gap-1 py-1 px-3 text-[#0e1f2f]/50 hover:text-[#0e1f2f] transition-colors">
               <Building2 className="w-5 h-5" />
-              <span className="text-[10px] font-bold uppercase">Directory</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider">Directory</span>
             </Link>
-            <Link href="/actualites" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-              <Building2 className="w-5 h-5" />
-              <span className="text-[10px] font-bold uppercase">News</span>
+            <Link href="/actualites" className="flex flex-col items-center gap-1 py-1 px-3 text-[#0e1f2f]/50 hover:text-[#0e1f2f] transition-colors">
+              <Newspaper className="w-5 h-5" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">News</span>
             </Link>
-            <Link href="/emplois" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-900 dark:text-white relative">
-              <Briefcase className="w-5 h-5 text-[#F28C28]" />
-              <span className="text-[10px] font-bold uppercase text-[#F28C28]">Jobs</span>
+            <Link href="/emplois" className="flex flex-col items-center gap-1 py-1 px-3 text-[#0e1f2f] relative">
+              <Briefcase className="w-5 h-5 text-[#F28C28] font-bold" />
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#F28C28]">Jobs</span>
               <div className="absolute -top-1 right-2 w-1.5 h-1.5 bg-[#F28C28] rounded-full"></div>
             </Link>
-            <Link href="/a-propos" className="flex flex-col items-center gap-1 py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-              <Building2 className="w-5 h-5" />
-              <span className="text-[10px] font-bold uppercase">Profile</span>
+            <Link href="/profile" className="flex flex-col items-center gap-1 py-1 px-3 text-[#0e1f2f]/50 hover:text-[#0e1f2f] transition-colors">
+              <User className="w-5 h-5" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Profile</span>
             </Link>
           </div>
         </nav>
